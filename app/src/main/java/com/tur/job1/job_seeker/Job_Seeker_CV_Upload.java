@@ -234,7 +234,12 @@ public class Job_Seeker_CV_Upload extends AppCompatActivity {
             for(int i=tempS.length()-1; i>=0; i--){
 
 
-                tempS2 = tempS2 + tempS.charAt(i);
+                if(tempS.charAt(i) == ' '){
+                    tempS2 = tempS2 + "_";
+                }else {
+                    tempS2 = tempS2 + tempS.charAt(i);
+                }
+
 
             }
 
@@ -280,7 +285,7 @@ public class Job_Seeker_CV_Upload extends AppCompatActivity {
 
     //--
 
-    private void uploadImageWithId(String filePath, String shortFilePath) {
+    private void uploadImageWithId(String filePath1, String shortFilePath) {
         // create upload service client
         FileUploadService service =
                 ServiceGenerator.createService(FileUploadService.class);
@@ -288,8 +293,8 @@ public class Job_Seeker_CV_Upload extends AppCompatActivity {
         // https://github.com/iPaulPro/aFileChooser/blob/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
         // use the FileUtils to get the actual file by uri
         //File file = FileUtils.getFile(this, fileUri);
-        File file = new File(filePath);;//FileUtils.getFile(this, fileUri);
-        Uri myUri = Uri.parse(filePath);
+        File file = new File(filePath1);;//FileUtils.getFile(this, fileUri);
+        Uri myUri = Uri.parse(filePath1);
 
 
 
@@ -302,7 +307,7 @@ public class Job_Seeker_CV_Upload extends AppCompatActivity {
 
         // MultipartBody.Part is used to send also the actual file name
         MultipartBody.Part body =
-                MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+                MultipartBody.Part.createFormData("file", shortFilePath, requestFile);
 
 
 

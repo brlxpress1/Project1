@@ -69,6 +69,8 @@ dependencies {
 
     implementation 'com.github.javiersantos:MaterialStyledDialogs:2.1'
 
+    implementation 'com.github.kk121:File-Loader:1.2'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
