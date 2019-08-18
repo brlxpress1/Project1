@@ -7,6 +7,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -100,6 +102,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.core.content.ContextCompat;
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
@@ -169,8 +172,25 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
     private String userIdLocal = "";
     private String cvDownloadUrl = "";
 
-    private Button cvUpdateClick;
+
     private Button saveButtonClick;
+    private Button cvDownloadClick;
+
+    //-- Resume upload
+
+
+    private Button uploadButton;
+
+    private LinearLayout cvChooser;
+    private EditText filePath;
+
+    private static final int ACTIVITY_CHOOSE_FILE = 3;
+    private String masterFilePath = "";
+
+    Intent chooseFile;
+    Intent intent;
+
+    //---------------
 
 
 
@@ -219,8 +239,17 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
         preferredInputOpener = (ImageView)findViewById(R.id.prepared_location_input);
         preferredBox = (EditText) findViewById(R.id.locationbox);
 
-        cvUpdateClick = (Button)findViewById(R.id.cv_download);
+        cvDownloadClick = (Button)findViewById(R.id.cv_download_button);
         saveButtonClick = (Button)findViewById(R.id.save_button);
+
+        //-- Resume upload
+
+        cvChooser = (LinearLayout)findViewById(R.id.cv_select_panel);
+        filePath = (EditText)findViewById(R.id.file_path);
+        uploadButton = (Button)findViewById(R.id.upload_button);
+
+
+        //---------------
 
 
 
@@ -398,11 +427,11 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
             }
         });
 
-        cvUpdateClick.setOnClickListener(new View.OnClickListener() {
+        cvDownloadClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                cvUpdateClick.startAnimation(buttonClick);
+                cvDownloadClick.startAnimation(buttonClick);
 
                 //downloadCV(cvDownloadUrl,nameBox.getText().toString()+"_CV");
 
@@ -428,9 +457,83 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
 
                 saveButtonClick.startAnimation(buttonClick);
 
-                submitForm();
+                if(dateBox.getText().toString().equalsIgnoreCase("") || dateBox.getText() == null){
+
+                    Toasty.error(Job_Seeker_Dashboard.this,"Please set your birthday first!",Toast.LENGTH_LONG, true).show();
+
+                }else {
+
+                    submitForm();
+                }
             }
         });
+
+
+        //-- Resume upload
+
+        chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseFile.setType("file/*");
+        intent = Intent.createChooser(chooseFile, "Choose a file");
+
+        //------------
+        cvChooser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                cvChooser.startAnimation(buttonClick);
+
+                if (ContextCompat.checkSelfPermission(Job_Seeker_Dashboard.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    // Permission is not granted
+
+                    askForPermission();
+
+
+                }else{
+
+                    startActivityForResult(intent, ACTIVITY_CHOOSE_FILE);
+
+                }
+
+
+
+
+
+
+
+
+
+            }
+        });
+
+
+
+
+
+
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                uploadButton.startAnimation(buttonClick);
+
+                if(masterFilePath.equalsIgnoreCase("")){
+
+                    Toasty.error(Job_Seeker_Dashboard.this, "Select a file first!", Toast.LENGTH_LONG, true).show();
+
+                }else {
+
+
+                    uploadImageWithId(masterFilePath,filePath.getText().toString());
+
+                }
+
+                //Toasty.success(Job_Seeker_CV_Upload.this,"Your CV uploaded successfully!",Toast.LENGTH_LONG, true).show();
+            }
+        });
+
+        //---------------
 
 
 
@@ -699,6 +802,46 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
                 }
             }
         }
+
+        //-- Resume
+
+        String path     = "";
+        if(requestCode == ACTIVITY_CHOOSE_FILE)
+        {
+
+            if (resultCode == Activity.RESULT_OK) {
+
+                Uri uri = data.getData();
+                String FilePath = getRealPathFromURI(uri);
+
+                if(fileExtentionCheck(FilePath)){
+                    //filePath.setText(fileNameSeperator(FilePath));
+                    if(fileSizeFinder(FilePath)){
+
+                        filePath.setText(fileNameSeperator(FilePath));
+                        masterFilePath = FilePath;
+
+                    }else {
+
+                        filePath.setText(fileNameSeperator(""));
+                        Toasty.error(Job_Seeker_Dashboard.this, "File is too large! Maximum file size limit 5MB", Toast.LENGTH_LONG, true).show();
+                    }
+                }else {
+
+                    Toasty.error(Job_Seeker_Dashboard.this, "File type not supported!\n Supported formats : pdf,docx,jpg,png", Toast.LENGTH_LONG, true).show();
+                    filePath.setText("");
+                }
+
+            }
+
+
+
+
+        }
+
+
+
+        //----------
     }
 
     /**
@@ -2072,6 +2215,184 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
                 })
                 .show();
     }
+
+    //-- Resume upload
+
+    public String getRealPathFromURI(Uri contentUri) {
+        String [] proj      = {MediaStore.Images.Media.DATA};
+        Cursor cursor       = getContentResolver().query( contentUri, proj, null, null,null);
+        if (cursor == null) return null;
+        int column_index    = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
+    public boolean fileExtentionCheck(String st){
+
+        Boolean tempFlag = false;
+
+        if(st.endsWith(".pdf") || st.endsWith(".docx") || st.endsWith(".jpg") || st.endsWith(".jpeg") || st.endsWith(".png")
+                || st.endsWith(".PDF") || st.endsWith(".DOCX") || st.endsWith(".JPG") || st.endsWith(".JPEG") || st.endsWith(".PNG")){
+
+            tempFlag = true;
+        }else{
+
+            tempFlag = false;
+        }
+
+        return tempFlag;
+    }
+
+    public String fileNameSeperator(String st){
+
+        String tempS = "";
+
+
+        for(int i=st.length()-1; i >= 0; i--){
+
+            if(st.charAt(i) == '/'){
+                break;
+            }else {
+                tempS = tempS + st.charAt(i);
+            }
+        }
+
+        if(tempS != null || !tempS.equalsIgnoreCase("")){
+
+            String tempS2 = "";
+            for(int i=tempS.length()-1; i>=0; i--){
+
+
+                tempS2 = tempS2 + tempS.charAt(i);
+
+            }
+
+            tempS = tempS2;
+        }
+
+
+
+        return tempS;
+
+    }
+
+    public boolean fileSizeFinder(String pth){
+
+        boolean tempFlag = false;
+        File file = new File(pth);
+        int file_size = Integer.parseInt(String.valueOf(file.length()/1024));
+        if(file_size <= 5120){
+
+            tempFlag = true;
+        }else {
+            tempFlag = false;
+        }
+
+        return tempFlag;
+    }
+
+    private void askForPermission(){
+
+        Dexter.withActivity(this)
+                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener() {
+                    @Override public void onPermissionGranted(PermissionGrantedResponse response) {
+
+                        startActivityForResult(intent, ACTIVITY_CHOOSE_FILE);
+                    }
+                    @Override public void onPermissionDenied(PermissionDeniedResponse response) {
+
+                        //askForPermission();
+                    }
+                    @Override public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+                        //askForPermission();
+                        //Log.d(TAG,"----------------------- Read permission is not granted!");
+                    }
+                }).check();
+    }
+
+    private void uploadImageWithId(String filePath, String shortFilePath) {
+
+        showLoadingBarAlert();
+
+        // create upload service client
+        FileUploadService service =
+                ServiceGenerator.createService(FileUploadService.class);
+
+        // https://github.com/iPaulPro/aFileChooser/blob/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
+        // use the FileUtils to get the actual file by uri
+        //File file = FileUtils.getFile(this, fileUri);
+        File file = new File(filePath);;//FileUtils.getFile(this, fileUri);
+        Uri myUri = Uri.parse(filePath);
+
+
+
+        // create RequestBody instance from file
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse(shortFilePath),
+                        file
+                );
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+
+
+        SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        String userID = prefs.getString("userid", "null");
+        if(userID.equalsIgnoreCase(null)){
+
+            //-- Go to sign up screen
+
+
+        }else {
+            //--
+            Call<UploadFileResponse> call = service.uploadImageWithId(body,Integer.parseInt(userID),"CV");
+            call.enqueue(new Callback<UploadFileResponse>() {
+                @Override
+                public void onResponse(Call<UploadFileResponse> call,
+                                       retrofit2.Response<UploadFileResponse> response) {
+                    //Log.v("112233", response.body().getFileName()+"-------- "+response.body().getFileDownloadUri());
+                    //Toasty.success(Job_Seeker_CV_Upload.this,response.body().toString(),Toast.LENGTH_LONG, true).show();
+                    Log.d(TAG,response.body().getFileDownloadUri());
+
+
+                    if(response.body().getStatus() == 200){
+
+                        //--success
+                        Toasty.success(Job_Seeker_Dashboard.this,"Resume uploaded successfully!",Toast.LENGTH_LONG, true).show();
+
+
+                    }else{
+
+                        Toasty.error(Job_Seeker_Dashboard.this,"User not created yet!",Toast.LENGTH_LONG, true).show();
+                    }
+
+
+                    hideLoadingBar();
+                }
+
+                @Override
+                public void onFailure(Call<UploadFileResponse> call, Throwable t) {
+                    Log.e(TAG, t.getMessage());
+                    hideLoadingBar();
+                }
+            });
+
+
+            //-------------------
+        }
+
+
+    }
+
+
+
+
+    //------------------
 
     @Override
     public void onBackPressed() {
