@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -25,6 +26,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -168,6 +170,7 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
     private String cvDownloadUrl = "";
 
     private Button cvUpdateClick;
+    private Button saveButtonClick;
 
 
 
@@ -217,6 +220,7 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
         preferredBox = (EditText) findViewById(R.id.locationbox);
 
         cvUpdateClick = (Button)findViewById(R.id.cv_download);
+        saveButtonClick = (Button)findViewById(R.id.save_button);
 
 
 
@@ -236,11 +240,16 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
 
 
 
+        //Toasty.info(Job_Seeker_Dashboard.this, nameBox.getFocusable(), Toast.LENGTH_LONG, true).show();
         nameInputOpener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                openNameInput();
+                nameInputOpener.startAnimation(buttonClick);
+                nameBox.startAnimation(buttonClick);
+
+                setTouchableEditText(nameBox);
+
 
             }
         });
@@ -261,13 +270,13 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                //check if spinner2 has a selected item and show the value in edittext
-                //Toasty.success(Job_Seeker_Dashboard.this, parent.getSelectedItem().toString(), Toast.LENGTH_LONG, true).show();
+                /*
                 if(genderSpineerFlag >= 1){
                     UpdateGender(Integer.parseInt(userIdLocal),1,genderBox.getSelectedItem().toString());
                 }else {
                     genderSpineerFlag++;
                 }
+                */
 
 
 
@@ -285,7 +294,14 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
             @Override
             public void onClick(View view) {
 
-                openEmailInput();
+                //openEmailInput();
+
+                emailInputOpener.startAnimation(buttonClick);
+                emailBox.startAnimation(buttonClick);
+
+                setTouchableEditText(emailBox);
+
+
 
             }
         });
@@ -315,7 +331,15 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
             public void onClick(View view) {
 
 
-                openExperienceInput();
+                //openExperienceInput();
+
+
+                experienceInputOpener.startAnimation(buttonClick);
+                experienceBox.startAnimation(buttonClick);
+
+                setTouchableEditText(experienceBox);
+
+
             }
         });
 
@@ -323,7 +347,13 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
             @Override
             public void onClick(View view) {
 
-                openSalaryInput();
+                //openSalaryInput();
+
+
+                salaryInputOpener.startAnimation(buttonClick);
+                salaryBox.startAnimation(buttonClick);
+
+                setTouchableEditText(salaryBox);
             }
         });
 
@@ -332,7 +362,13 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
             public void onClick(View view) {
 
 
-                openCurrentCompanyInput();
+                //openCurrentCompanyInput();
+
+
+                currentCompanyInputOpener.startAnimation(buttonClick);
+                currentCompanyBox.startAnimation(buttonClick);
+
+                setTouchableEditText(currentCompanyBox);
 
             }
         });
@@ -342,7 +378,12 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
             public void onClick(View view) {
 
 
-                openDesignationInput();
+                //openDesignationInput();
+
+                designationInputOpener.startAnimation(buttonClick);
+                designationCompanyBox.startAnimation(buttonClick);
+
+                setTouchableEditText(designationCompanyBox);
             }
         });
 
@@ -351,6 +392,9 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
             public void onClick(View view) {
 
                 openLocationInput();
+
+
+
             }
         });
 
@@ -375,6 +419,16 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
                 startActivity(openSecondVerifier);
                 finish();
 
+            }
+        });
+
+        saveButtonClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                saveButtonClick.startAnimation(buttonClick);
+
+                submitForm();
             }
         });
 
@@ -403,6 +457,138 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
 
 
 
+    }
+
+    private void submitForm() {
+
+       //--
+
+         showLoadingBarAlert();
+
+         Boolean checkFlag = false;
+         if(visible_switch.isChecked()){
+
+             checkFlag = true;
+
+         }else {
+
+             checkFlag = false;
+         }
+
+        JSONObject parameters = new JSONObject();
+        try {
+
+            parameters.put("userId", Integer.parseInt(userIdLocal));
+            parameters.put("fullName", nameBox.getText().toString());
+            parameters.put("visbile", checkFlag);
+            parameters.put("gender", genderBox.getSelectedItem().toString());
+            parameters.put("dateOfBirth", dateBox.getText().toString());
+            parameters.put("email", emailBox.getText().toString());
+            parameters.put("phone", phoneBox.getText().toString());
+            parameters.put("expectedSalary", salaryExperience(salaryBox.getText().toString().trim()));
+            parameters.put("experience", salaryExperience(experienceBox.getText().toString().trim()));
+            parameters.put("preferLocation", preferredBox.getText().toString());
+            parameters.put("photoUrl", "");
+            parameters.put("cvUrl", "");
+            parameters.put("skillsList", null);
+            parameters.put("jobsHistories", null);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d(TAG,parameters.toString());
+
+        RequestQueue rq = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, ConstantsHolder.rawServer+ConstantsHolder.updateUserFullForm, parameters, new com.android.volley.Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String respo=response.toString();
+                        Log.d(TAG,respo);
+
+                        //Log.d(TAG,respo);
+
+
+                        //parseFetchData(response);
+                        int status = response.optInt("status");
+                        if(status == 200){
+
+                            Toasty.success(Job_Seeker_Dashboard.this,"Your info updated successfully!",Toast.LENGTH_LONG, true).show();
+
+
+                        }else {
+
+
+                            Toasty.error(Job_Seeker_Dashboard.this,"Can't update info! Please check your internet connection & try again.",Toast.LENGTH_LONG, true).show();
+                        }
+
+                        hideLoadingBar();
+
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        Toasty.error(Job_Seeker_Dashboard.this, "Server error,please check your internet connection!", Toast.LENGTH_LONG, true).show();
+                        //Toast.makeText(Login_A.this, "Something wrong with Api", Toast.LENGTH_SHORT).show();
+                        hideLoadingBar();
+
+                    }
+                }){
+
+            /** Passing some request headers* */
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json");
+                //headers.put("apiKey", "xxxxxxxxxxxxxxx");
+                return headers;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        rq.getCache().clear();
+        rq.add(jsonObjectRequest);
+
+        //-----------------
+
+
+        //------------
+
+
+    }
+
+    private int salaryExperience(String st){
+
+        int temp = 0;
+        if(st.equalsIgnoreCase("") || st == null){
+
+            temp = 0;
+        }else{
+            temp = Integer.parseInt(st);
+        }
+
+        return temp;
+    }
+
+    private void setTouchableEditText(EditText editText){
+
+
+        editText.setFocusableInTouchMode(true);
+        editText.setFocusable(true);
+
+        editText.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
     @Override
@@ -647,7 +833,7 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
 
     public void setLocation(){
 
-        UpdateUserLocation(Integer.parseInt(userIdLocal),1,preferredBox.getText().toString());
+        //UpdateUserLocation(Integer.parseInt(userIdLocal),1,preferredBox.getText().toString());
     }
 
 
@@ -669,15 +855,18 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         //String date = "month/day/year: " + month + "/" + dayOfMonth + "/" + year;
-        String date2 = dayOfMonth+"/"+month+"/"+year;
-        //String date3 = dayOfMonth+"_"+month+"_"+year;
+       // String date2 = dayOfMonth+"-"+month+"-"+year;
 
+        String day1 = completeNumber(dayOfMonth);
+        String month1 = completeNumber(month);
 
-        dateBox.setText(date2);
+        String niceFormat = day1+"-"+month1+"-"+year;
+
+        dateBox.setText(niceFormat);
 
         //-- update date api
-        UpdateUserBirthdate(Integer.parseInt(userIdLocal),1,String.valueOf(dayOfMonth),String.valueOf(month),String.valueOf(year));
-        //Log.d(TAG,date2);
+        //UpdateUserBirthdate(Integer.parseInt(userIdLocal),1,String.valueOf(dayOfMonth),String.valueOf(month),String.valueOf(year));
+
     }
 
     // this method will store the info of user to  database

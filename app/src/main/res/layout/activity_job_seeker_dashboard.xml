@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:focusableInTouchMode="true">
 
 
     <ScrollView
@@ -42,7 +43,7 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:id="@+id/panel1"
+                            android:id="@+id/panel1_photo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
@@ -110,7 +111,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/panel2"
+                            android:id="@+id/panel2_visibility"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -160,7 +161,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/panel3"
+                            android:id="@+id/panel3_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
@@ -201,7 +202,7 @@
                                             android:layout_weight=".5"
                                             android:background="@drawable/flag_transparent"
 
-                                            android:clickable="false"
+
                                             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
 
                                             android:ems="10"
@@ -233,7 +234,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/panel3_1"
+                            android:id="@+id/panel3_1_gender"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
@@ -300,7 +301,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/panel4"
+                            android:id="@+id/panel4_phone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
@@ -376,7 +377,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/panel5"
+                            android:id="@+id/panel5_email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
@@ -418,7 +419,7 @@
                                             android:background="@drawable/flag_transparent"
                                             android:clickable="false"
 
-                                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@."
+                                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@.0123456789_-"
                                             android:ems="10"
 
                                             android:focusable="false"
@@ -449,7 +450,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/panel6"
+                            android:id="@+id/panel6_birthdate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
@@ -496,7 +497,7 @@
 
 
                                             android:focusable="false"
-                                            android:hint="dd / mm / yyyy"
+                                            android:hint="DD - MM - YYYY"
                                             android:inputType="textPersonName"
                                             android:textColor="#000000"
                                             android:textSize="16sp"
@@ -525,7 +526,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/panel7"
+                            android:id="@+id/panel7_skill"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
@@ -598,7 +599,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/panel8"
+                            android:id="@+id/panel8_experience"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
@@ -671,7 +672,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/panel9"
+                            android:id="@+id/panel9_salary"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
@@ -717,7 +718,7 @@
                                             android:ems="10"
 
                                             android:focusable="false"
-                                            android:hint="Ex : 55000"
+                                            android:hint="55000"
                                             android:inputType="number"
                                             android:textColor="#000000"
                                             android:textSize="16sp"
@@ -744,7 +745,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/panel10"
+                            android:id="@+id/panel10_currently_employed"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
@@ -907,7 +908,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/panel11"
+                            android:id="@+id/panel11_preferred_location"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
@@ -954,7 +955,7 @@
 
                                             android:ems="10"
                                             android:focusable="false"
-                                            android:hint="Ex : Dhanmondi"
+                                            android:hint="Dhanmondi"
                                             android:inputType="textPersonName"
                                             android:textColor="#000000"
                                             android:textSize="16sp"
@@ -981,7 +982,35 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/panel12"
+                            android:id="@+id/panel11_1_submit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="40dp"
+                            android:layout_marginBottom="70dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:text="@string/see_your_cv"
+                                android:textColor="@color/infoColor"
+                                android:textStyle="italic"
+                                android:visibility="gone" />
+
+                            <Button
+                                android:id="@+id/save_button"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/color2"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="Save"
+                                android:textColor="#ffffff"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/panel12_cv_upload"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="40dp"
