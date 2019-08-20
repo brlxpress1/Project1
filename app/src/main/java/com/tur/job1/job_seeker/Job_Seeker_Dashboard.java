@@ -79,6 +79,8 @@ import com.suke.widget.SwitchButton;
 import com.tur.job1.Intro;
 import com.tur.job1.R;
 import com.tur.job1.Splash;
+import com.tur.job1.company.Company_Dashboard;
+import com.tur.job1.company.Company_SearchBoard;
 import com.tur.job1.models.DateResponse;
 import com.tur.job1.models.LoginInformationResponse;
 import com.tur.job1.models.PhoneNumberCheck;
@@ -1148,6 +1150,8 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
 
                     nameBox.setText(fullName);
                 }
+
+                setTitle("Profile");
                 //-----------
 
                 // 3_1.Printing the gender type
@@ -1207,7 +1211,7 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
 
                 // 7.Printing the Experience
                 String experience = jobSeekerModel.optString("experience");
-                if(experience != null && !experience.equalsIgnoreCase("") && !experience.equalsIgnoreCase("null")){
+                if(experience != null && !experience.equalsIgnoreCase("") && !experience.equalsIgnoreCase("0") ){
 
                     experienceBox.setText(experience);
                 }
@@ -1215,7 +1219,7 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
 
                 // 7.Printing the Expected salary
                 String expectedSalary = jobSeekerModel.optString("expectedSalary");
-                if(expectedSalary != null && !expectedSalary.equalsIgnoreCase("") && !expectedSalary.equalsIgnoreCase("null")){
+                if(expectedSalary != null && !expectedSalary.equalsIgnoreCase("") && !expectedSalary.equalsIgnoreCase("null") && !experience.equalsIgnoreCase("0")){
 
                     salaryBox.setText(expectedSalary );
                 }
@@ -2232,6 +2236,8 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
                         editor.putString("userid", "");
                         editor.apply();
 
+                        Intent openJobSeekerSignUp = new Intent(Job_Seeker_Dashboard.this, Intro.class);
+                        startActivity(openJobSeekerSignUp);
                         finish();
                     }
                 })

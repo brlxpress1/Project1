@@ -339,6 +339,7 @@ public class Company_Login_1 extends AppCompatActivity {
 
             SharedPreferences.Editor editor = getSharedPreferences("CompanyData", MODE_PRIVATE).edit();
             editor.putString("userid", userId);
+            //editor.putString("username", nam);
             editor.putString("userphone", userPhone);
             editor.apply();
 

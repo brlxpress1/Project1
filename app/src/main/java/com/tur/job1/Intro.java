@@ -1,6 +1,8 @@
 package com.tur.job1;
 
 import android.content.Intent;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
@@ -11,6 +13,9 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.tur.job1.company.Company_Signup_1;
 import com.tur.job1.job_seeker.Job_Seeker_CV_Upload;
 import com.tur.job1.job_seeker.Job_Seeker_Dashboard;
@@ -91,6 +96,46 @@ public class Intro extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    //--
+
+    public void showExitDialogue(){
+
+        new MaterialStyledDialog.Builder(this)
+                .setIcon(R.drawable.logout_icon)
+                .setHeaderColor(R.color.error_red)
+                .setTitle("Exit?")
+                .setDescription("Do you want to exit from this app?")
+
+                .setCancelable(false)
+                .setPositiveText("Exit")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+
+                        finish();
+                    }
+                })
+                .setNegativeText("Cancel")
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+
+                    }
+                })
+                .show();
+    }
+
+    //--------------------
+
+    @Override
+    public void onBackPressed() {
+
+        showExitDialogue();
+
     }
 }
 

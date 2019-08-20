@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.tur.job1.Intro;
 import com.tur.job1.R;
 import com.tur.job1.job_seeker.Job_Seeker_Dashboard;
 import com.tur.job1.job_seeker.Job_Seeker_Login;
@@ -190,43 +191,41 @@ public class Company_Login_2 extends AppCompatActivity {
         String userPhone = prefs.getString("userphone", "");
         Log.d(TAG,"From shared preference : "+userName+"--------------"+userPhone);
 
-        if(userName.equalsIgnoreCase("")){
+        if(userPhone.equalsIgnoreCase("")){
 
             // Go to sign up page
+
+            Intent introOpener = new Intent(Company_Login_2.this, Company_Login_1.class);
+            startActivity(introOpener);
+            finish();
         }else {
 
-            if(userPhone.equalsIgnoreCase("")){
 
-                // Go to sign up page
-            }else {
-
-
-                //registerUser(userName,userPhone);
+            //registerUser(userName,userPhone);
 
 
 
-                verificationCallBack();
+            verificationCallBack();
 
-                PhoneAuthProvider.getInstance().verifyPhoneNumber(
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(
 
-                        number,        // Phone number to verify
+                    number,        // Phone number to verify
 
-                        60,                 // Timeout duration
+                    60,                 // Timeout duration
 
-                        TimeUnit.SECONDS,   // Unit of timeout
+                    TimeUnit.SECONDS,   // Unit of timeout
 
-                        this,               // Activity (for callback binding)
+                    this,               // Activity (for callback binding)
 
-                        verificationCallbacks);
+                    verificationCallbacks);
 
 
 
 
 
-                //--
+            //--
 
 
-            }
         }
 
 
@@ -390,7 +389,7 @@ public class Company_Login_2 extends AppCompatActivity {
 
 
                             //--
-                            Intent openSecondVerifier = new Intent(Company_Login_2.this,Company_Dashboard.class);
+                            Intent openSecondVerifier = new Intent(Company_Login_2.this,Company_SearchBoard.class);
                             startActivity(openSecondVerifier);
                             finish();
 

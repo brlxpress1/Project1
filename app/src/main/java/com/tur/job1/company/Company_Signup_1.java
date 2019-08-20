@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.hbb20.CountryCodePicker;
 import com.tur.job1.Intro;
 import com.tur.job1.R;
@@ -300,63 +301,6 @@ public class Company_Signup_1 extends AppCompatActivity {
     private void phone_number_check(String userPhone) {
 
 
-        //--
-      /*
-        API_Retrofit service =
-                ServiceGenerator.createService(API_Retrofit.class);
-
-
-        JSONObject parameters = new JSONObject();
-        try {
-            parameters.put("userPhoneNumber", userPhone);
-            parameters.put("userType",0);
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        Log.d(TAG,parameters.toString());
-
-
-        Call<PhoneNumberCheck> call = service.userExistCheck(parameters);
-        call.enqueue(new Callback<PhoneNumberCheck>() {
-            @Override
-            public void onResponse(Call<PhoneNumberCheck> call,
-                                   Response<PhoneNumberCheck> response) {
-
-               Log.d(TAG,response.body().isUserExist()+"----------------"+response.body().isUserSobseeker());
-
-
-                if(response.body().isUserExist()){
-
-                    Toasty.error(Job_Seeker_Verify_1.this, "This phone number already exists! Try log in now.", Toast.LENGTH_LONG, true).show();
-
-
-                }else {
-
-                    //Toasty.success(Job_Seeker_Verify_1.this, "You can open a new account", Toast.LENGTH_LONG, true).show();
-
-
-
-                    Log.d(TAG,"Ready to verify");
-
-                }
-
-               //                 hideLoadingBar();
-            }
-
-            @Override
-            public void onFailure(Call<PhoneNumberCheck> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
-               // hideLoadingBar();
-            }
-        });
-
-
-        //-----------------
-        */
-
 
 
 
@@ -396,10 +340,12 @@ public class Company_Signup_1 extends AppCompatActivity {
 
                             // Toasty.error(Job_Seeker_Verify_1.this,"Can't update location! Please check your internet connection & try again.",Toast.LENGTH_LONG, true).show();
                             // Log.d(TAG,"Ready to verify");
+                           // parseFetchData(response);
 
                             Intent openSecondVerifier = new Intent(Company_Signup_1.this, Company_Signup_2.class);
                             startActivity(openSecondVerifier);
                             finish();
+
 
                         }
 
@@ -438,35 +384,26 @@ public class Company_Signup_1 extends AppCompatActivity {
 
     }
 
-    // if the signup successfull then this method will call and it store the user info in local
-    public void parsePhoneCheckData(String loginData){
-        try {
-            JSONObject jsonObject=new JSONObject(loginData);
-            String userExist =jsonObject.optString("userExist");
+    private void parseFetchData(JSONObject jobj) {
 
+        if (jobj != null) {
 
+            JSONObject jobSeekerModel = jobj.optJSONObject("companyModel");
 
-            if(userExist.equalsIgnoreCase("true")){
+            SharedPreferences.Editor editor = getSharedPreferences("CompanyData", MODE_PRIVATE).edit();
+            editor.putString("userid", "");
+            editor.putString("username", "");
+            editor.putString("userphoto", "");
 
-                Toasty.error(Company_Signup_1.this, "This phone number already exists! Try log in now.", Toast.LENGTH_LONG, true).show();
+            editor.apply();
 
+            Intent openSecondVerifier = new Intent(Company_Signup_1.this, Company_Signup_2.class);
+            startActivity(openSecondVerifier);
+            finish();
 
-            }else {
-
-                //Toasty.success(Job_Seeker_Verify_1.this, "You can open a new account", Toast.LENGTH_LONG, true).show();
-                Intent openSecondVerifier = new Intent(Company_Signup_1.this,Company_Signup_2.class);
-                startActivity(openSecondVerifier);
-                finish();
-
-            }
-
-        } catch (JSONException e) {
-
-            Toasty.error(Company_Signup_1.this, "Server error,please check your internet connection!", Toast.LENGTH_LONG, true).show();
-            e.printStackTrace();
         }
-
     }
+
 
 
     private String removePlusFromPhone(String ph){

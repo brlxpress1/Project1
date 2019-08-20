@@ -734,4 +734,13 @@ public class Company_Dashboard extends AppCompatActivity {
 
 
     //---------------------
+
+
+    @Override
+    public void onBackPressed() {
+
+        Intent openJobSeekerSignUp = new Intent(Company_Dashboard.this, Company_SearchBoard.class);
+        startActivity(openJobSeekerSignUp);
+        finish();
+    }
 }

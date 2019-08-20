@@ -312,10 +312,14 @@ public class Job_Seeker_CV_Upload extends AppCompatActivity {
 
 
         SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
-        String userID = prefs.getString("userid", "null");
-        if(userID.equalsIgnoreCase(null)){
+        String userID = prefs.getString("userid", "");
+        Log.d("5555",userID);
+        if(userID.equalsIgnoreCase(null) && userID.equalsIgnoreCase("")){
 
             //-- Go to sign up screen
+            Intent openSecondVerifier = new Intent(Job_Seeker_CV_Upload.this,Job_Seeker_Login.class);
+            startActivity(openSecondVerifier);
+            finish();
 
 
         }else {

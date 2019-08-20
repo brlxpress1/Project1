@@ -201,43 +201,39 @@ public class Job_Seeker_Login_Verify extends AppCompatActivity {
         String userPhone = prefs.getString("userphone", "");
         Log.d(TAG,"From shared preference : "+userName+"--------------"+userPhone);
 
-        if(userName.equalsIgnoreCase("")){
+        if(userPhone.equalsIgnoreCase("")){
 
             // Go to sign up page
+
+
         }else {
 
-            if(userPhone.equalsIgnoreCase("")){
 
-                // Go to sign up page
-            }else {
-
-
-                //registerUser(userName,userPhone);
+            //registerUser(userName,userPhone);
 
 
 
-                verificationCallBack();
+            verificationCallBack();
 
-                PhoneAuthProvider.getInstance().verifyPhoneNumber(
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(
 
-                        number,        // Phone number to verify
+                    number,        // Phone number to verify
 
-                        60,                 // Timeout duration
+                    60,                 // Timeout duration
 
-                        TimeUnit.SECONDS,   // Unit of timeout
+                    TimeUnit.SECONDS,   // Unit of timeout
 
-                        this,               // Activity (for callback binding)
+                    this,               // Activity (for callback binding)
 
-                        verificationCallbacks);
+                    verificationCallbacks);
 
 
 
 
 
-                //--
+            //--
 
 
-            }
         }
 
 

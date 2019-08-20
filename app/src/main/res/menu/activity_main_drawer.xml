@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item
+            android:id="@+id/my_profile"
+            android:icon="@drawable/profile"
+            android:title="My profile" />
+        <item
+            android:id="@+id/privacy_policy"
+            android:icon="@drawable/privacy"
+            android:title="Privacy policy" />
+
+    </group>
+
+    <group android:id="@+id/group_menu">
+        <item
+            android:id="@+id/log_out"
+            android:icon="@drawable/logout"
+            android:title="Log out" />
+    </group>
+
+
+</menu>

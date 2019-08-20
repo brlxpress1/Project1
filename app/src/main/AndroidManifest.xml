@@ -48,6 +48,7 @@
         <activity android:name=".company.Company_Login_2" android:theme="@style/Theme2" android:label="Verify Number" android:screenOrientation="portrait"></activity>
         <activity android:name=".company.Company_Signup_1" android:theme="@style/Theme2" android:label="Company Sign Up" android:screenOrientation="portrait"></activity>
         <activity android:name=".company.Company_Signup_2" android:theme="@style/Theme2" android:label="Verify Number" android:screenOrientation="portrait"></activity>
+        <activity android:name=".company.Company_SearchBoard" android:theme="@style/AppTheme" android:label="" android:screenOrientation="portrait"></activity>
 
 
         <activity android:name=".others.ImagePickerActivity" />

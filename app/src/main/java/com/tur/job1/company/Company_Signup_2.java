@@ -620,6 +620,7 @@ public class Company_Signup_2 extends AppCompatActivity {
 
                 SharedPreferences.Editor editor = getSharedPreferences("CompanyData", MODE_PRIVATE).edit();
                 editor.putString("userid", jsonObject.optString("userId"));
+                editor.putString("username", jsonObject.optString("userName"));
                 editor.apply();
 
                 SharedPreferences.Editor typeEditor = getSharedPreferences("UserType", MODE_PRIVATE).edit();
@@ -628,7 +629,7 @@ public class Company_Signup_2 extends AppCompatActivity {
 
 
                 //Toasty.success(Job_Seeker_Verify_2.this,"Sign up successful with you provided phone number!",Toast.LENGTH_LONG, true).show();
-                Intent openCVwindow = new Intent(Company_Signup_2.this, Company_Dashboard.class);
+                Intent openCVwindow = new Intent(Company_Signup_2.this, Company_SearchBoard.class);
                 startActivity(openCVwindow);
                 finish();
 
