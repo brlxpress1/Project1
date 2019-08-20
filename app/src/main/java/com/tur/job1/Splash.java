@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.tur.job1.company.Company_Dashboard;
+import com.tur.job1.company.Company_Signup_1;
 import com.tur.job1.job_seeker.Job_Seeker_Dashboard;
 import com.tur.job1.job_seeker.Job_Seeker_Verify_1;
 import com.tur.job1.others.Connectivity;
@@ -38,22 +40,64 @@ public class Splash extends AppCompatActivity {
         if (Connectivity.isConnected(Splash.this)) {
 
 
-            SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
-            String userIdLocal = prefs.getString("userid", "");
-            Log.d(TAG,userIdLocal);
 
-            if(userIdLocal != null && !userIdLocal.equalsIgnoreCase("")){
+            SharedPreferences prefs1 = getSharedPreferences("UserType", MODE_PRIVATE);
+            int userType = prefs1.getInt("type", 0);
+            Log.d(TAG,"Logging with user type : "+ String.valueOf(userType));
 
-                Intent openJobSeekerSignUp = new Intent(Splash.this, Job_Seeker_Dashboard.class);
-                startActivity(openJobSeekerSignUp);
-                finish();
+            if(userType == 1){
+
+                //--
+                SharedPreferences prefs = getSharedPreferences("CompanyData", MODE_PRIVATE);
+                String userIdLocal = prefs.getString("userid", "");
+                Log.d(TAG,userIdLocal);
+
+                if(userIdLocal != null && !userIdLocal.equalsIgnoreCase("")){
+
+                    Intent openJobSeekerSignUp = new Intent(Splash.this, Company_Dashboard.class);
+                    startActivity(openJobSeekerSignUp);
+                    finish();
+
+                }else {
+
+                    Intent openJobSeekerSignUp = new Intent(Splash.this, Company_Signup_1.class);
+                    startActivity(openJobSeekerSignUp);
+                    finish();
+                }
+                //-------------
+
+            }else if(userType == 2){
+
+                //--
+                SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+                String userIdLocal = prefs.getString("userid", "");
+                Log.d(TAG,userIdLocal);
+
+                if(userIdLocal != null && !userIdLocal.equalsIgnoreCase("")){
+
+                    Intent openJobSeekerSignUp = new Intent(Splash.this, Job_Seeker_Dashboard.class);
+                    startActivity(openJobSeekerSignUp);
+                    finish();
+
+                }else {
+
+                    Intent openJobSeekerSignUp = new Intent(Splash.this, Job_Seeker_Verify_1.class);
+                    startActivity(openJobSeekerSignUp);
+                    finish();
+                }
+                //-------------
 
             }else {
+
 
                 Intent openJobSeekerSignUp = new Intent(Splash.this, Intro.class);
                 startActivity(openJobSeekerSignUp);
                 finish();
+
             }
+
+
+
 
 
         } else {

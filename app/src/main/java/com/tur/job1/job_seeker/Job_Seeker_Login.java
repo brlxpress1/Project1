@@ -440,6 +440,11 @@ public class Job_Seeker_Login extends AppCompatActivity {
             editor.apply();
 
 
+            SharedPreferences.Editor typeEditor = getSharedPreferences("UserType", MODE_PRIVATE).edit();
+            typeEditor.putInt("type", 2);
+            typeEditor.apply();
+
+
 
             Intent openSecondVerifier = new Intent(this,Job_Seeker_Login_Verify.class);
             startActivity(openSecondVerifier);

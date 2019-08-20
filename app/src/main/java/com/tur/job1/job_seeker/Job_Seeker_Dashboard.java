@@ -76,6 +76,7 @@ import com.krishna.fileloader.listener.FileRequestListener;
 import com.krishna.fileloader.pojo.FileResponse;
 import com.krishna.fileloader.request.FileLoadRequest;
 import com.suke.widget.SwitchButton;
+import com.tur.job1.Intro;
 import com.tur.job1.R;
 import com.tur.job1.Splash;
 import com.tur.job1.models.DateResponse;
@@ -127,7 +128,7 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.6F);
 
     public String TAG = "Job_Seeker_Dashboard";
-    public static final int REQUEST_IMAGE = 100;
+    private int REQUEST_IMAGE = 100;
 
     private Dialog dialog;
 
@@ -404,13 +405,15 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
             public void onClick(View view) {
 
 
-                //openCurrentCompanyInput();
+
 
 
                 currentCompanyInputOpener.startAnimation(buttonClick);
                 currentCompanyBox.startAnimation(buttonClick);
 
-                setTouchableEditText(currentCompanyBox);
+                openCurrentCompanyInput();
+
+                //setTouchableEditText(currentCompanyBox);
 
             }
         });
@@ -420,12 +423,14 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
             public void onClick(View view) {
 
 
-                //openDesignationInput();
+
 
                 designationInputOpener.startAnimation(buttonClick);
                 designationCompanyBox.startAnimation(buttonClick);
 
-                setTouchableEditText(designationCompanyBox);
+                openDesignationInput();
+
+                //setTouchableEditText(designationCompanyBox);
             }
         });
 
@@ -457,7 +462,14 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
                 }
                 */
 
-                new DownloadFile().execute("http://192.168.70.165:8080/downloadFile/Mahbubur%20Rahman%20CV.jpg");
+                if(cvDownloadUrl.equalsIgnoreCase("") || cvDownloadUrl == null){
+
+                    Toasty.error(Job_Seeker_Dashboard.this,"Resume not available for download now! Try again later.",Toast.LENGTH_LONG, true).show();
+
+                }else {
+                    new DownloadFile().execute(cvDownloadUrl);
+                }
+
 
             }
         });
@@ -556,7 +568,7 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
         SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
 
 
-        userIdLocal = prefs.getString("userid", "null");
+        userIdLocal = prefs.getString("userid", "");
         Log.d(TAG,"Trying to fetch user data with the user ID save in shared preference : "+userIdLocal);
 
         if(userIdLocal != null && !userIdLocal.equalsIgnoreCase("")){
@@ -567,6 +579,9 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
         }else{
 
             //Go to Log in
+            Intent openJobSeekerSignUp = new Intent(this, Job_Seeker_Login.class);
+            startActivity(openJobSeekerSignUp);
+            finish();
         }
 
 
@@ -1064,6 +1079,7 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
                         // TODO: Handle error
                         Toasty.error(Job_Seeker_Dashboard.this, "Server error,please check your internet connection!", Toast.LENGTH_LONG, true).show();
                         //Toast.makeText(Login_A.this, "Something wrong with Api", Toast.LENGTH_SHORT).show();
+                        hideLoadingBar();
 
                     }
                 }){
@@ -1163,7 +1179,7 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
                 String phone = jobSeekerModel.optString("phone");
                 if(phone != null && !phone.equalsIgnoreCase("") && !phone.equalsIgnoreCase("null")){
 
-                    phoneBox.setText("+"+phone);
+                    phoneBox.setText(phone);
                 }
                 //-----------
 
@@ -1874,7 +1890,7 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
     // Job History Update
     private void UpdateUserJobHistory(int userID,int userType, String companyName, String currentDesignation, int msgType) {
 
-        showLoadingBarAlert();
+        //showLoadingBarAlert();
 
         JSONObject parameters = new JSONObject();
         try {
@@ -1910,14 +1926,16 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
                             if(msgType == 1){
 
 
-                                Toasty.success(Job_Seeker_Dashboard.this,"Company updated successfully!",Toast.LENGTH_LONG, true).show();
+                                //Toasty.success(Job_Seeker_Dashboard.this,"Company updated successfully!",Toast.LENGTH_LONG, true).show();
+                                Log.d(TAG,"Company updated successfully!");
 
                             }
 
                             if(msgType == 2){
 
 
-                                Toasty.success(Job_Seeker_Dashboard.this,"Designation name updated successfully!",Toast.LENGTH_LONG, true).show();
+                               // Toasty.success(Job_Seeker_Dashboard.this,"Designation name updated successfully!",Toast.LENGTH_LONG, true).show();
+                                Log.d(TAG,"Designation updated successfully!");
 
                             }
 
@@ -1925,10 +1943,11 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
                         }else {
 
 
-                            Toasty.error(Job_Seeker_Dashboard.this,"Can't update location! Please check your internet connection & try again.",Toast.LENGTH_LONG, true).show();
+                            //Toasty.error(Job_Seeker_Dashboard.this,"Can't update info! Please check your internet connection & try again.",Toast.LENGTH_LONG, true).show();
+                            Log.d(TAG,"Can't update Company & Designation info! Please check your internet connection & try again.");
                         }
 
-                        hideLoadingBar();
+                        //hideLoadingBar();
 
 
 
@@ -1941,7 +1960,7 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
                         // TODO: Handle error
                         Toasty.error(Job_Seeker_Dashboard.this, "Server error,please check your internet connection!", Toast.LENGTH_LONG, true).show();
                         //Toast.makeText(Login_A.this, "Something wrong with Api", Toast.LENGTH_SHORT).show();
-                        hideLoadingBar();
+                        //hideLoadingBar();
 
                     }
                 }){

@@ -134,7 +134,14 @@ public class ExtraSkillSetFetcher {
         for(int i=0; i<skillIds.size(); i++){
 
 
-            tempS = tempS + skillNameList.get(i)+",\n";
+            if(i >= skillIds.size()-1){
+
+                tempS = tempS + skillNameList.get(i)+"\n";
+            }else {
+
+                tempS = tempS + skillNameList.get(i)+",\n";
+            }
+
         }
 
 

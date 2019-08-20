@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Intro" android:theme="@style/Theme2" android:label="Job Seeker Sign Up" android:screenOrientation="portrait"></activity>
+        <activity android:name=".Intro" android:theme="@style/AppTheme" android:label="" android:screenOrientation="portrait"></activity>
         <activity android:name=".job_seeker.Job_Seeker_Verify_1" android:theme="@style/Theme2" android:label="Job Seeker Sign Up" android:screenOrientation="portrait"></activity>
         <activity android:name=".job_seeker.Job_Seeker_Verify_2" android:theme="@style/Theme2" android:label="Verify Number" android:screenOrientation="portrait"></activity>
         <activity android:name=".job_seeker.Job_Seeker_CV_Upload" android:theme="@style/Theme2" android:label="Upload Resume" android:screenOrientation="portrait"></activity>
@@ -46,7 +46,7 @@
         <activity android:name=".company.Company_Dashboard" android:theme="@style/Theme2" android:label="Welcome" android:screenOrientation="portrait"></activity>
         <activity android:name=".company.Company_Login_1" android:theme="@style/Theme2" android:label="Company Log In" android:screenOrientation="portrait"></activity>
         <activity android:name=".company.Company_Login_2" android:theme="@style/Theme2" android:label="Verify Number" android:screenOrientation="portrait"></activity>
-        <activity android:name=".company.Company_Signup_1" android:theme="@style/Theme2" android:label="Job Seeker Sign Up" android:screenOrientation="portrait"></activity>
+        <activity android:name=".company.Company_Signup_1" android:theme="@style/Theme2" android:label="Company Sign Up" android:screenOrientation="portrait"></activity>
         <activity android:name=".company.Company_Signup_2" android:theme="@style/Theme2" android:label="Verify Number" android:screenOrientation="portrait"></activity>
 
 

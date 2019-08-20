@@ -344,7 +344,7 @@ public class Dialogue_Helper {
         // set dialog message
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("Submit",
+                .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
 
@@ -367,6 +367,7 @@ public class Dialogue_Helper {
                                 }
                             }
                         })
+                /*
                 .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
@@ -382,6 +383,7 @@ public class Dialogue_Helper {
                                 }
                             }
                         })
+                        */
         ;
 
         // create alert dialog
@@ -416,7 +418,7 @@ public class Dialogue_Helper {
         // set dialog message
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("Submit",
+                .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
 
@@ -439,6 +441,7 @@ public class Dialogue_Helper {
                                 }
                             }
                         })
+                /*
                 .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
@@ -454,6 +457,7 @@ public class Dialogue_Helper {
                                 }
                             }
                         })
+                        */
         ;
 
         // create alert dialog

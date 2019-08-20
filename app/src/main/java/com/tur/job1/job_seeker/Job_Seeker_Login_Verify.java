@@ -104,7 +104,7 @@ public class Job_Seeker_Login_Verify extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
 
-        String userPhone = prefs.getString("userphone", "null");
+        String userPhone = prefs.getString("userphone", "");
 
 
         send_otp_by_firebase(userPhone);
@@ -400,25 +400,6 @@ public class Job_Seeker_Login_Verify extends AppCompatActivity {
 
 
 
-                            //FirebaseUser user = task.getResult().getUser();
-
-                            //String temp = wholeNumber;
-
-                            //Toast.makeText(Verification.this, "Log in successful! with the phone "+ temp, Toast.LENGTH_LONG).show();
-
-                            // Toasty.success(JobSeekerSignUp_A.this, "Log in successful!", Toast.LENGTH_LONG, true).show();
-
-                            // after successfully verified
-/*
-                            hideLoadingBar();
-                            //Toasty.success(Job_Seeker_Login_Verify.this,"Sign up successful with you provided phone number!",Toast.LENGTH_LONG, true).show();
-                            Intent openCVwindow = new Intent(Job_Seeker_Login_Verify.this,Job_Seeker_CV_Upload.class);
-                            startActivity(openCVwindow);
-                            finish();
-                            //--
-                            */
-
-                           // hideLoadingBar();
                             //--
                             Intent openSecondVerifier = new Intent(Job_Seeker_Login_Verify.this,Job_Seeker_Dashboard.class);
                             startActivity(openSecondVerifier);

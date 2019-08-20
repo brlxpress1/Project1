@@ -11,6 +11,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.tur.job1.company.Company_Signup_1;
 import com.tur.job1.job_seeker.Job_Seeker_CV_Upload;
 import com.tur.job1.job_seeker.Job_Seeker_Dashboard;
 import com.tur.job1.job_seeker.Job_Seeker_Verify_1;
@@ -50,6 +51,20 @@ public class Intro extends AppCompatActivity {
 
                 hire_now.startAnimation(buttonClick);
 
+                if (Connectivity.isConnected(Intro.this)) {
+
+
+                    Intent openJobSeekerSignUp = new Intent(Intro.this, Company_Signup_1.class);
+                    startActivity(openJobSeekerSignUp);
+                    finish();
+
+
+                } else {
+
+                    Toasty.error(Intro.this, "You have no internet access! Please turn on your WiFi or mobile data.", Toast.LENGTH_LONG, true).show();
+
+                }
+
 
 
             }
@@ -64,7 +79,7 @@ public class Intro extends AppCompatActivity {
                 if (Connectivity.isConnected(Intro.this)) {
 
 
-                    Intent openJobSeekerSignUp = new Intent(Intro.this, Job_Seeker_Dashboard.class);
+                    Intent openJobSeekerSignUp = new Intent(Intro.this, Job_Seeker_Verify_1.class);
                     startActivity(openJobSeekerSignUp);
                     finish();
 

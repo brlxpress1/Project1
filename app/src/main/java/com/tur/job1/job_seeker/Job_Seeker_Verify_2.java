@@ -115,7 +115,7 @@ public class Job_Seeker_Verify_2 extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
 
-        String userPhone = prefs.getString("userphone", "null");
+        String userPhone = prefs.getString("userphone", "");
 
 
         send_otp_by_firebase(userPhone);
@@ -206,18 +206,18 @@ public class Job_Seeker_Verify_2 extends AppCompatActivity {
 
 
         SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
-        //Log.d(TAG,prefs.getString("userid", "null"));
 
-        String userName = prefs.getString("username", "null");
-        String userPhone = prefs.getString("userphone", "null");
+
+        String userName = prefs.getString("username", "");
+        String userPhone = prefs.getString("userphone", "");
         Log.d(TAG,"From shared preference : "+userName+"--------------"+userPhone);
 
-        if(userName.equalsIgnoreCase("null")){
+        if(userName.equalsIgnoreCase("")){
 
             // Go to sign up page
         }else {
 
-            if(userPhone.equalsIgnoreCase("null")){
+            if(userPhone.equalsIgnoreCase("")){
 
                 // Go to sign up page
             }else {
@@ -425,17 +425,17 @@ public class Job_Seeker_Verify_2 extends AppCompatActivity {
 
                             //--
                             SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
-                            //Log.d(TAG,prefs.getString("userid", "null"));
 
-                            String userName = prefs.getString("username", "null");
-                            String userPhonePure = prefs.getString("userphonepure", "null");
 
-                            if(userName.equalsIgnoreCase("null")){
+                            String userName = prefs.getString("username", "");
+                            String userPhonePure = prefs.getString("userphonepure", "");
+
+                            if(userName.equalsIgnoreCase("")){
 
                                 // Go to sign up page
                             }else {
 
-                                if(userPhonePure.equalsIgnoreCase("null")){
+                                if(userPhonePure.equalsIgnoreCase("")){
 
                                     // Go to sign up page
                                 }else {
@@ -528,10 +528,10 @@ public class Job_Seeker_Verify_2 extends AppCompatActivity {
 
 
         SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
-        //Log.d(TAG,prefs.getString("userid", "null"));
 
 
-        String userPhone = prefs.getString("userphone", "null");
+
+        String userPhone = prefs.getString("userphone", "");
 
         String temp = userPhone;
 
@@ -702,6 +702,11 @@ public class Job_Seeker_Verify_2 extends AppCompatActivity {
                 editor.putString("userid", jsonObject.optString("userId"));
 
                 editor.apply();
+
+
+                SharedPreferences.Editor typeEditor = getSharedPreferences("UserType", MODE_PRIVATE).edit();
+                typeEditor.putInt("type", 2);
+                typeEditor.apply();
 
 
                 //Toasty.success(Job_Seeker_Verify_2.this,"Sign up successful with you provided phone number!",Toast.LENGTH_LONG, true).show();

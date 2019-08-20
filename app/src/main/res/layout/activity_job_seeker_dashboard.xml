@@ -649,6 +649,7 @@
                                             android:inputType="number"
                                             android:textColor="#000000"
                                             android:textSize="16sp"
+                                            android:maxLength="2"
                                             android:theme="@style/EditTextTheme1" />
                                     </LinearLayout>
 
@@ -663,7 +664,7 @@
                                             android:layout_width="20dp"
                                             android:layout_height="20dp"
                                             android:layout_gravity="right"
-                                            app:srcCompat="@drawable/arrow" />
+                                            app:srcCompat="@drawable/edit" />
                                     </LinearLayout>
                                 </LinearLayout>
 

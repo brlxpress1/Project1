@@ -20,6 +20,9 @@ public class ConstantsHolder {
     public static String updateUserSkillsSet = "UserDetails/JobSeeker/SkillUpdate";
     public static String updateUserFullForm = "UserDetails/JobSeeker/Update";
 
+    public static String companyInfoUpdate = "UserDetails/Company/Update";
+
+
 
     public static String directoryName = "Project1";
 
