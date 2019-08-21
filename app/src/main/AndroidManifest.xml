@@ -51,6 +51,7 @@
         <activity android:name=".company.Company_SearchBoard" android:theme="@style/AppTheme" android:label="" android:screenOrientation="portrait"></activity>
 
 
+
         <activity android:name=".others.ImagePickerActivity" />
         <!-- uCrop cropping activity -->
         <activity

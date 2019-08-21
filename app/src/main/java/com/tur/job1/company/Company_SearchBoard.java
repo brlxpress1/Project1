@@ -1,12 +1,21 @@
 package com.tur.job1.company;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -27,14 +36,18 @@ import com.google.android.material.navigation.NavigationView;
 import com.tur.job1.Intro;
 import com.tur.job1.R;
 import com.tur.job1.Splash;
+import com.tur.job1.adapters.SearchResultExample;
+import com.tur.job1.adapters.SkillsSetAdapter;
 import com.tur.job1.job_seeker.Job_Seeker_Dashboard;
 import com.tur.job1.job_seeker.Job_Seeker_Verify_1;
 import com.tur.job1.others.Connectivity;
 import com.tur.job1.others.ConstantsHolder;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,6 +73,21 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
 
 
+    String[] professions ={"Android Developer","Java","Software Engineer","3D Artist","2D Artist","Marketing Assitant","Human Resource"};
+    private AutoCompleteTextView autoCompleteTextView;
+
+    private Dialog dialog;
+
+    ArrayList<Integer> jobSeekerId = new ArrayList<>();
+    ArrayList<String> jobSeekerPhotoUrl = new ArrayList<>();
+    ArrayList<String> jobSeekerName = new ArrayList<>();
+    ArrayList<String> jobSeekerDesignation = new ArrayList<>();
+    ArrayList<Integer> jobSeekerExperience = new ArrayList<>();
+    ArrayList<Integer> jobSeekerExpectedSalary = new ArrayList<>();
+
+    private LinearLayout panel_1_normal_search;
+    private LinearLayout panel_2_search_window;
+    private ListView searchView;
 
 
     @Override
@@ -79,6 +107,17 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
         View header = navigationView.getHeaderView(0);
         avatarPhoto = (CircleImageView) header.findViewById(R.id.avatar_pic);
         avatarName = (TextView) header.findViewById(R.id.nav_header_textView);
+        autoCompleteTextView = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextView2);
+
+        panel_1_normal_search = (LinearLayout)findViewById(R.id.panel_1_normal_search);
+        panel_2_search_window = (LinearLayout)findViewById(R.id.panel_2_search_window);
+        searchView = (ListView)findViewById(R.id.searchView);
+
+
+
+
+        readyProfesionBox(autoCompleteTextView);
+
 
 
 
@@ -102,6 +141,18 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
         }
 
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View arg1, int pos,
+                                    long id) {
+
+                //Toast.makeText(Company_SearchBoard.this," selected", Toast.LENGTH_LONG).show();
+                showSearchResult(autoCompleteTextView.getText().toString(),0,20);
+
+
+            }
+        });
 
 
 
@@ -109,6 +160,196 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
 
 
+
+    }
+
+    private void showSearchResult(String profession, int increamentor,int size) {
+
+
+        showLoadingBarAlert();
+
+        JSONObject parameters = new JSONObject();
+        try {
+            parameters.put("skill", profession);
+            parameters.put("index", increamentor);
+            parameters.put("size", size);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d(TAG,parameters.toString());
+
+        RequestQueue rq = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, ConstantsHolder.rawServer+ConstantsHolder.basicSearch, parameters, new com.android.volley.Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String respo=response.toString();
+                        Log.d(TAG,respo);
+
+                        Log.d("5555",respo);
+
+
+
+                        if(response.toString().contains("\"status\": 500,")){
+
+                            Toasty.error(Company_SearchBoard.this, "Server error,please check your internet connection!", Toast.LENGTH_LONG, true).show();
+                            hideLoadingBar();
+
+                        }else {
+
+                            parseBasicSearchData(response);
+                        }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        Toasty.error(Company_SearchBoard.this, "Server error,please check your internet connection!", Toast.LENGTH_LONG, true).show();
+                        //Toast.makeText(Login_A.this, "Something wrong with Api", Toast.LENGTH_SHORT).show();
+                        hideLoadingBar();
+
+                    }
+                }){
+
+            /** Passing some request headers* */
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json");
+                //headers.put("apiKey", "xxxxxxxxxxxxxxx");
+                return headers;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        rq.getCache().clear();
+        rq.add(jsonObjectRequest);
+
+        //-----------------
+    }
+
+    private void parseBasicSearchData(JSONObject jobj){
+
+        if(jobj != null){
+
+            int totalElements =jobj.optInt("totalElements");
+            if(totalElements < 1) {
+
+                Toasty.info(Company_SearchBoard.this, "No result found! Please try later.", Toast.LENGTH_LONG, true).show();
+                //panel_1_normal_search.getLayoutParams().height = 0;
+
+            }else {
+
+                //--
+
+                // Getting the Job Seeker info
+                //JSONObject skills = jobj.optJSONObject("skills");
+                try {
+                    JSONArray skills = jobj.getJSONArray("content");
+
+                    // Log.d(TAG,skills.toString());
+                    for(int i=0; i<skills.length(); i++){
+
+                        JSONObject listData = skills.getJSONObject(i);
+
+                        jobSeekerId.add(listData.optInt("id"));
+                        jobSeekerPhotoUrl.add(listData.optString("photoUrl"));
+                        jobSeekerName.add(listData.optString("fullName"));
+                        jobSeekerDesignation.add(listData.optString("fullName"));
+                        jobSeekerExperience.add(listData.optInt("experience"));
+                        jobSeekerExpectedSalary.add(listData.optInt("expectedSalary"));
+
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+                panel_1_normal_search.getLayoutParams().height = 0;
+                searchView.setAdapter(new SearchResultExample(this,jobSeekerId.size(),jobSeekerId,jobSeekerPhotoUrl,jobSeekerName,jobSeekerDesignation,jobSeekerExperience,jobSeekerExpectedSalary));
+
+                //-------------------
+
+
+            }
+
+
+
+
+            hideLoadingBar();
+
+
+
+
+
+            }else {
+                // Go to Login
+            }
+        }
+
+
+
+
+
+    private void showLoadingBarAlert(){
+
+
+        dialog = new Dialog(Company_SearchBoard.this);
+
+        dialog.setContentView(R.layout.custom_profile_dashboard_loading1);
+
+        dialog.setTitle("Please wait!");
+
+        dialog.setCancelable(false);
+
+
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        dialog.getWindow().setGravity(Gravity.END);
+
+
+
+        dialog.show();
+
+    }
+
+
+
+    private void hideLoadingBar(){
+
+
+
+        dialog.dismiss();
+
+    }
+
+    private void readyProfesionBox(AutoCompleteTextView autoCompleteTextView) {
+
+        //Creating the instance of ArrayAdapter containing list of language names
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this,android.R.layout.select_dialog_item,professions);
+        //Getting the instance of AutoCompleteTextView
+        //AutoCompleteTextView actv =  (AutoCompleteTextView)findViewById(R.id.autoCompleteTextView);
+        autoCompleteTextView.setThreshold(1);//will start working from first character
+        autoCompleteTextView.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
+        //autoCompleteTextView.setTextColor(Color.RED);
     }
 
 

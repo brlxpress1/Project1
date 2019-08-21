@@ -22,6 +22,8 @@ public class ConstantsHolder {
 
     public static String companyInfoUpdate = "UserDetails/Company/Update";
 
+    public static String basicSearch = "BasicSearch";
+
 
 
     public static String directoryName = "Project1";

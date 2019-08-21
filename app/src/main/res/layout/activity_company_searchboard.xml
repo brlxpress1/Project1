@@ -10,126 +10,105 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/demo_bg"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/panel_1_search"
+            android:id="@+id/panel_1_normal_search"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:background="@drawable/demo_bg"
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <LinearLayout
-                android:id="@+id/p1"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_height="50dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".8"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <ImageView
                             android:id="@+id/imageView4"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            tools:srcCompat="@drawable/ic_drawer_operner" />
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            app:srcCompat="@drawable/black_menu" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".2"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView13"
-                            android:layout_width="match_parent"
+                            android:id="@+id/textView9"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:gravity="center"
-                            android:text="Search Here"
+                            android:text="Search here"
                             android:textColor="#ffffff"
-                            android:textSize="18sp" />
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
                     </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/p2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="50dp"
-                android:layout_marginRight="10dp"
-                android:background="#ffffff"
-                android:orientation="vertical">
+                android:layout_marginRight="20dp"
 
-                <LinearLayout
+                android:background="@android:drawable/dialog_holo_light_frame"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextView2"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/transparent"
+                    android:elevation="10dp"
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:orientation="vertical">
+                    android:hint="Which employee do you want?" />
 
-                        <ImageView
-                            android:id="@+id/imageView6"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            app:srcCompat="@drawable/ic_employee_icon" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/autoCompleteTextView2"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@android:color/transparent"
-                            android:text="Android Developer" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                    </LinearLayout>
-                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/panel_2_search_window"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
+            android:layout_height="match_parent"
+            android:background="#d3d3d3"
+            android:orientation="vertical"
+            android:visibility="visible">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
+            <ListView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null" />
+        </LinearLayout>
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
