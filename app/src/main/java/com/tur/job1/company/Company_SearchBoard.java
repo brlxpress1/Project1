@@ -14,8 +14,11 @@ import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -43,6 +46,7 @@ import com.tur.job1.job_seeker.Job_Seeker_Verify_1;
 import com.tur.job1.job_seeker.Job_Seeker_Verify_2;
 import com.tur.job1.others.Connectivity;
 import com.tur.job1.others.ConstantsHolder;
+import com.tur.job1.others.Dialogue_Helper;
 import com.tur.job1.others.Skill_Selector;
 
 import org.json.JSONArray;
@@ -91,6 +95,7 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
     private LinearLayout panel_1_normal_search;
     private LinearLayout panel_2_search_window;
+    private LinearLayout panel_3_advanceSearchWindow;
     private ListView searchView;
 
     private int backButtonBehaviour = 0;
@@ -102,6 +107,19 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
     private LinearLayout basicSearchClick;
 
     private DrawerLayout drawer_layout;
+
+    private Button basic_search_option;
+    private Button advance_search_option;
+    private TextView search_title_name;
+
+    private AutoCompleteTextView secondarySearchBox;
+    private EditText salaryBox;
+    private Spinner genderBox;
+    private EditText ageBox;
+    private EditText experienceBox;
+    private EditText locationBox;
+    private Button secondarySearchClick;
+    private LinearLayout gender_input2;
 
 
     @Override
@@ -125,11 +143,27 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
         panel_1_normal_search = (LinearLayout)findViewById(R.id.panel_1_normal_search);
         panel_2_search_window = (LinearLayout)findViewById(R.id.panel_2_search_window);
+        panel_3_advanceSearchWindow = (LinearLayout)findViewById(R.id.panel_3_advanced_filters);
         searchView = (ListView)findViewById(R.id.searchView);
 
         drawerOpener = (LinearLayout)findViewById(R.id.draweropener);
         basicSearchClick = (LinearLayout)findViewById(R.id.basicSearchButton);
         drawer_layout = (DrawerLayout)findViewById(R.id.drawer_layout);
+
+        basic_search_option = (Button)findViewById(R.id.basic_search_option);
+        advance_search_option = (Button)findViewById(R.id.advance_search_option);
+        search_title_name = (TextView)findViewById(R.id.search_title_name);
+
+
+
+        secondarySearchBox = (AutoCompleteTextView)findViewById(R.id.secondarySearchBox);
+        salaryBox = (EditText)findViewById(R.id.salaryBox);
+        genderBox = (Spinner)findViewById(R.id.genderbox);
+        ageBox = (EditText)findViewById(R.id.ageBox);
+        experienceBox = (EditText)findViewById(R.id.expBox);
+        locationBox= (EditText)findViewById(R.id.locationBox);
+        secondarySearchClick = (Button)findViewById(R.id.searchbutton);
+        gender_input2 = (LinearLayout)findViewById(R.id.gender_input);
 
 
 
@@ -193,6 +227,101 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
         });
 
 
+        basic_search_option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                showBasicSearchWindow();
+            }
+        });
+
+        advance_search_option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                showAdvanceSearchWindow();
+            }
+        });
+
+        showBasicSearchWindow();
+
+
+        //------------
+
+
+        gender_input2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                genderBox.performClick();
+            }
+        });
+
+        locationBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                openLocationInput(locationBox);
+
+            }
+        });
+
+
+        secondarySearchClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                secondarySearchClick.startAnimation(buttonClick);
+
+                // to do task
+                String s1 = secondarySearchBox.getText().toString();
+
+                if(s1.equalsIgnoreCase("") || s1 == null){
+
+                    Toasty.error(Company_SearchBoard.this, "Please choose a skill first!", Toast.LENGTH_LONG, true).show();
+
+                }else {
+
+
+                    String tempSalary = salaryBox.getText().toString().trim();
+                    if(tempSalary.equalsIgnoreCase("") || tempSalary == null){
+
+                        tempSalary = "100000";
+                    }
+
+                    String tempGender = genderBox.getSelectedItem().toString();
+                    if(tempGender .equalsIgnoreCase("") || tempGender  == null || tempGender.equalsIgnoreCase("All")){
+
+                        tempGender = "";
+                    }
+
+                    String tempAge = ageBox.getText().toString().trim();
+                    if(tempAge .equalsIgnoreCase("") || tempAge  == null){
+
+                        tempAge  = "10";
+                    }
+
+                    String tempExperience = experienceBox.getText().toString().trim();
+                    if(tempExperience .equalsIgnoreCase("") || tempExperience  == null){
+
+                        tempExperience  = "0";
+                    }
+
+
+                    String tempLocation = locationBox.getText().toString().trim();
+                    if(tempLocation.equalsIgnoreCase("") || tempLocation == null){
+
+                        tempLocation = "";
+                    }
+
+                    showSearchResult2(0,tempAge,tempLocation,s1,tempExperience,tempSalary,tempGender);
+
+
+                }
+            }
+        });
 
 
 
@@ -200,6 +329,13 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
 
     }
+
+    public void openLocationInput(EditText editText){
+
+        Dialogue_Helper dh = new Dialogue_Helper();
+        dh.showLocationSearch(this,editText,this);
+    }
+
 
     private void showSearchResult(String profession, int increamentor,int size) {
 
@@ -331,7 +467,8 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
 
                 backButtonBehaviour = 1;
-               // panel_1_normal_search.getLayoutParams().height = 0;
+                search_title_name.setText(autoCompleteTextView.getText().toString());
+                // panel_1_normal_search.getLayoutParams().height = 0;
                 //searchView.setAdapter(null);
                 showSearchResultWindow();
                 searchView.setAdapter(new SearchResultExample(this,jobSeekerId.size(),jobSeekerId,jobSeekerPhotoUrl,jobSeekerName,jobSeekerDesignation,jobSeekerExperience,jobSeekerExpectedSalary));
@@ -350,10 +487,175 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
 
 
-            }else {
-                // Go to Login
-            }
+        }else {
+            // Go to Login
         }
+    }
+
+    private void showSearchResult2(int increamentor,String age, String location, String skill, String experience, String salary, String gender) {
+
+
+        showLoadingBarAlert();
+
+        if(increamentor == 0){
+
+            jobSeekerId.clear();
+            jobSeekerPhotoUrl.clear();
+            jobSeekerName.clear();
+            jobSeekerDesignation.clear();
+            jobSeekerExperience.clear();
+            jobSeekerExpectedSalary.clear();
+            jobSeekerCVUrl.clear();
+        }
+
+
+
+
+        JSONObject parameters = new JSONObject();
+        try {
+            parameters.put("age", Integer.parseInt(age));
+            parameters.put("location", location);
+            parameters.put("skills", skill);
+            parameters.put("experince", Integer.parseInt( experience));
+            parameters.put("salary", Integer.parseInt(salary));
+            parameters.put("gender", gender);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d(TAG,parameters.toString());
+
+        RequestQueue rq = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, ConstantsHolder.rawServer+ConstantsHolder.advanceSearch, parameters, new com.android.volley.Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String respo=response.toString();
+                        Log.d(TAG,respo);
+
+                        Log.d(TAG,respo);
+
+
+
+                        if(response.toString().contains("\"status\": 500,")){
+
+                            Toasty.error(Company_SearchBoard.this, "Server error,please check your internet connection!", Toast.LENGTH_LONG, true).show();
+                            hideLoadingBar();
+
+                        }else {
+
+                            parseAdvanceSearchData(response);
+                        }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        Toasty.error(Company_SearchBoard.this, "Server error,please check your internet connection!", Toast.LENGTH_LONG, true).show();
+                        //Toast.makeText(Login_A.this, "Something wrong with Api", Toast.LENGTH_SHORT).show();
+                        hideLoadingBar();
+
+                    }
+                }){
+
+            /** Passing some request headers* */
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json");
+                //headers.put("apiKey", "xxxxxxxxxxxxxxx");
+                return headers;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        rq.getCache().clear();
+        rq.add(jsonObjectRequest);
+
+        //-----------------
+    }
+
+    private void parseAdvanceSearchData(JSONObject jobj){
+
+
+
+        if(jobj != null){
+
+            int totalElements =jobj.optInt("totalElement");
+            if(totalElements < 1) {
+
+                Toasty.info(Company_SearchBoard.this, "No result found! Please try later.", Toast.LENGTH_LONG, true).show();
+                //panel_1_normal_search.getLayoutParams().height = 0;
+
+            }else {
+
+                //--
+
+                // Getting the Job Seeker info
+                //JSONObject skills = jobj.optJSONObject("skills");
+                try {
+                    JSONArray skills = jobj.getJSONArray("jobsSeekers");
+                    //Log.d("5555",skills.toString());
+
+                    // Log.d(TAG,skills.toString());
+                    for(int i=0; i<skills.length(); i++){
+
+                        JSONObject listData = skills.getJSONObject(i);
+
+                        jobSeekerId.add(listData.optInt("id"));
+                        jobSeekerPhotoUrl.add(listData.optString("photoUrl"));
+                        jobSeekerName.add(listData.optString("fullName"));
+                        jobSeekerDesignation.add(listData.optString("fullName"));
+                        jobSeekerExperience.add(listData.optInt("experience"));
+                        jobSeekerExpectedSalary.add(listData.optInt("expectedSalary"));
+                        jobSeekerCVUrl.add(listData.optString("cvUrl"));
+
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+                backButtonBehaviour = 2;
+                search_title_name.setText(autoCompleteTextView.getText().toString());
+                // panel_1_normal_search.getLayoutParams().height = 0;
+                //searchView.setAdapter(null);
+                showSearchResultWindow();
+                searchView.setAdapter(new SearchResultExample(this,jobSeekerId.size(),jobSeekerId,jobSeekerPhotoUrl,jobSeekerName,jobSeekerDesignation,jobSeekerExperience,jobSeekerExpectedSalary));
+
+                //-------------------
+
+
+            }
+
+
+
+
+            hideLoadingBar();
+
+
+
+
+
+        }else {
+            // Go to Login
+        }
+    }
+
+
 
 
 
@@ -396,6 +698,18 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
     }
 
     private void readyProfesionBox(AutoCompleteTextView autoCompleteTextView ) {
+
+        //Creating the instance of ArrayAdapter containing list of language names
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this,android.R.layout.select_dialog_item,professions);
+        //Getting the instance of AutoCompleteTextView
+        //AutoCompleteTextView actv =  (AutoCompleteTextView)findViewById(R.id.autoCompleteTextView);
+        autoCompleteTextView.setThreshold(1);//will start working from first character
+        autoCompleteTextView.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
+        //autoCompleteTextView.setTextColor(Color.RED);
+    }
+
+    private void readyProfesionBox2(AutoCompleteTextView autoCompleteTextView ) {
 
         //Creating the instance of ArrayAdapter containing list of language names
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
@@ -590,12 +904,21 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
         panel_1_normal_search.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         panel_2_search_window.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+        panel_3_advanceSearchWindow.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
     }
 
     private void showSearchResultWindow(){
 
         panel_1_normal_search.setLayoutParams(new LinearLayout.LayoutParams(0,0));
         panel_2_search_window.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        panel_3_advanceSearchWindow.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+    }
+
+    private void showAdvanceSearchWindow(){
+
+        panel_1_normal_search.setLayoutParams(new LinearLayout.LayoutParams(0,0));
+        panel_2_search_window.setLayoutParams(new LinearLayout.LayoutParams(0,0));
+        panel_3_advanceSearchWindow.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
     }
 
     //-----------------
@@ -684,6 +1007,7 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
                 professions = skillNameList.toArray(new String[skillNameList.size()]);
                 readyProfesionBox(autoCompleteTextView);
+                readyProfesionBox2(secondarySearchBox);
 
                 hideLoadingBar();
 
@@ -737,13 +1061,49 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
             showBasicSearchWindow();
             backButtonBehaviour = 0;
 
-        }else if(backButtonBehaviour == 0){
+        }else if(backButtonBehaviour == 2){
 
             //to do
+           showSearchResultWindow();
+            backButtonBehaviour = 1;
+
+        }else if(backButtonBehaviour == 0 ){
+
+            //to do
+            showExitDialogue();
 
         }
 
         //Toast.makeText(this,String.valueOf(backButtonBehaviour),Toast.LENGTH_LONG).show();
+    }
+
+    public void showExitDialogue(){
+
+        new MaterialStyledDialog.Builder(this)
+                .setIcon(R.drawable.logout_icon)
+                .setHeaderColor(R.color.error_red)
+                .setTitle("Exit?")
+                .setDescription("Do you want to exit from this app?")
+
+                .setCancelable(false)
+                .setPositiveText("Exit")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+
+                        finish();
+                    }
+                })
+                .setNegativeText("Cancel")
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+
+                    }
+                })
+                .show();
     }
 
 

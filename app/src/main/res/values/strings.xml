@@ -8,6 +8,13 @@
         <item>Other</item>
     </string-array>
 
+    <string-array name="job_gender_list">
+        <item>All</item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+
     <string name="see_your_cv"><u>See your current resume</u></string>
 
     <string name="msg_error_unable_select_profile_pic">Unable to set profile image. Please try again!</string>

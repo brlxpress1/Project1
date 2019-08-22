@@ -365,11 +365,16 @@ public class Employee_Details extends AppCompatActivity {
 
     public void showFileDownloadedDialoue(String msg){
 
+        String a = "File name : "+ msg+"\n\n";
+        String b = "Downloaded to : "+ConstantsHolder.directoryName+"\n";
+        String c = a+b;
+
+
         new MaterialStyledDialog.Builder(this)
                 .setIcon(R.drawable.file_icon)
                 .setHeaderColor(R.color.successColor)
                 .setTitle("Resume Downloaded!")
-                .setDescription("File downloaded in "+ConstantsHolder.directoryName+" folder in your device as "+msg)
+                .setDescription(c)
 
                 .setCancelable(false)
                 .setPositiveText("OK")

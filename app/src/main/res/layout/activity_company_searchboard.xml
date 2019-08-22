@@ -18,7 +18,8 @@
             android:layout_height="1dp"
             android:background="@drawable/demo_bg"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:focusableInTouchMode="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -130,7 +131,7 @@
         <LinearLayout
             android:id="@+id/panel_2_search_window"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="1dp"
             android:background="#d3d3d3"
             android:orientation="vertical"
             android:visibility="visible">
@@ -221,6 +222,392 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/panel_3_advanced_filters"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight=".9"
+                            android:orientation="vertical"></LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight=".2"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/panel1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="20dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/textView13"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Advanced Filters :"
+                                    android:textAlignment="center"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/panel2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".5"
+                                    android:fontFamily="serif"
+                                    android:text="Choose a skill"
+                                    android:textColor="@color/color2"
+                                    android:textSize="16sp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight=".5"
+                                    android:background="@drawable/underline_shape"
+                                    android:orientation="vertical">
+
+                                    <AutoCompleteTextView
+                                        android:id="@+id/secondarySearchBox"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:background="@android:color/transparent"
+                                        android:elevation="10dp"
+                                        android:hint="Which employee do you want?"
+
+                                        android:imeOptions="actionNext"
+                                        android:maxLines="1"
+                                        android:textSize="16sp" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/panel3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".5"
+                                    android:fontFamily="serif"
+                                    android:text="Set maximum salary (BDT)"
+                                    android:textColor="@color/color2"
+                                    android:textSize="16sp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="2dp"
+                                    android:layout_weight=".5"
+                                    android:background="@drawable/underline_shape"
+                                    android:orientation="vertical">
+
+                                    <EditText
+                                        android:id="@+id/salaryBox"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight=".5"
+                                        android:background="@drawable/flag_transparent"
+                                        android:clickable="false"
+
+                                        android:digits="1234567890"
+                                        android:ems="10"
+
+
+                                        android:hint="55000"
+                                        android:inputType="number"
+                                        android:textColor="#000000"
+                                        android:textSize="16sp"
+                                        android:theme="@style/EditTextTheme1" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/panel4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".5"
+                                    android:fontFamily="serif"
+                                    android:text="Gender"
+                                    android:textColor="@color/color2"
+                                    android:textSize="16sp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="2dp"
+                                    android:layout_weight=".5"
+                                    android:background="@drawable/underline_shape"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="horizontal">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight=".2"
+                                            android:orientation="vertical">
+
+                                            <Spinner
+                                                android:id="@+id/genderbox"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight=".5"
+                                                android:background="@android:color/transparent"
+                                                android:clickable="false"
+                                                android:entries="@array/job_gender_list"
+                                                android:longClickable="false"
+                                                android:prompt="@string/gender_prompt" />
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:id="@+id/gender_input"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight=".8"
+                                            android:orientation="vertical">
+
+                                            <ImageView
+                                                android:layout_width="20dp"
+                                                android:layout_height="20dp"
+                                                android:layout_gravity="right"
+                                                app:srcCompat="@drawable/arrow" />
+                                        </LinearLayout>
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/panel5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".5"
+                                    android:fontFamily="serif"
+                                    android:text="Set minimum age (years)"
+                                    android:textColor="@color/color2"
+                                    android:textSize="16sp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="2dp"
+                                    android:layout_weight=".5"
+                                    android:background="@drawable/underline_shape"
+                                    android:orientation="vertical">
+
+                                    <EditText
+                                        android:id="@+id/ageBox"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight=".5"
+                                        android:background="@drawable/flag_transparent"
+                                        android:clickable="false"
+
+                                        android:digits="1234567890"
+                                        android:ems="10"
+
+
+                                        android:hint="25"
+                                        android:inputType="number"
+                                        android:textColor="#000000"
+                                        android:textSize="16sp"
+                                        android:theme="@style/EditTextTheme1" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/panel6"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".5"
+                                    android:fontFamily="serif"
+                                    android:text="Experience (years)"
+                                    android:textColor="@color/color2"
+                                    android:textSize="16sp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="2dp"
+                                    android:layout_weight=".5"
+                                    android:background="@drawable/underline_shape"
+                                    android:orientation="vertical">
+
+                                    <EditText
+                                        android:id="@+id/expBox"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight=".5"
+                                        android:background="@drawable/flag_transparent"
+                                        android:clickable="false"
+
+                                        android:digits="1234567890"
+                                        android:ems="10"
+
+
+                                        android:hint="5"
+                                        android:inputType="number"
+                                        android:textColor="#000000"
+                                        android:textSize="16sp"
+                                        android:theme="@style/EditTextTheme1" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/panel7"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".5"
+                                    android:fontFamily="serif"
+                                    android:text="Location (years)"
+                                    android:textColor="@color/color2"
+                                    android:textSize="16sp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="2dp"
+                                    android:layout_weight=".5"
+                                    android:background="@drawable/underline_shape"
+                                    android:orientation="vertical">
+
+                                    <EditText
+                                        android:id="@+id/locationBox"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight=".5"
+                                        android:background="@drawable/flag_transparent"
+                                        android:clickable="false"
+
+
+                                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+
+                                        android:ems="10"
+
+                                        android:focusable="false"
+                                        android:hint="Dhanmondi"
+                                        android:inputType="textPersonName"
+                                        android:textColor="#000000"
+                                        android:textSize="16sp"
+                                        android:theme="@style/EditTextTheme1" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/panel8"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="40dp"
+                                android:layout_marginTop="40dp"
+                                android:layout_marginRight="40dp"
+                                android:layout_marginBottom="70dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp"
+                                    android:text="@string/see_your_cv"
+                                    android:textColor="@color/infoColor"
+                                    android:textStyle="italic"
+                                    android:visibility="gone" />
+
+                                <Button
+                                    android:id="@+id/searchbutton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/color2"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="Search"
+                                    android:textColor="#ffffff"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight=".9"
+                            android:orientation="vertical"></LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView

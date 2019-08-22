@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.tur.job1.R;
+import com.tur.job1.company.Company_SearchBoard;
 import com.tur.job1.job_seeker.Job_Seeker_Dashboard;
 
 import java.util.ArrayList;
@@ -517,6 +518,85 @@ public class Dialogue_Helper {
 
                                     edt.setText(nameTemp);
                                     jobSeekerDashboard.setLocation();
+
+
+                                }
+                            }
+                        })
+                /*
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+
+
+                                //String nameTemp = "";
+                                String nameTemp = input_name.getText().toString();
+
+                                if(nameTemp.equals("")){
+
+                                }else {
+
+                                }
+                            }
+                        })
+                        */
+        ;
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
+
+    //-- Showing prepered location input
+    public void showLocationSearch(Activity actv, EditText edt, Company_SearchBoard company_searchBoard) {
+
+
+
+        // get prompts.xml view
+        LayoutInflater li = LayoutInflater.from(actv);
+        View promptsView = li.inflate(R.layout.prepered_location_input, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                actv);
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+
+        final AutoCompleteTextView input_name = (AutoCompleteTextView) promptsView
+                .findViewById(R.id.name);
+
+        LocationList ll = new LocationList();
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(actv, android.R.layout.simple_list_item_1, ll.preparedLocationList);
+
+        input_name.setAdapter(adapter);
+
+
+
+
+        // set dialog message
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+
+
+                                //String nameTemp = "";
+                                String nameTemp = input_name.getText().toString();
+
+                                if(nameTemp.equals("")){
+
+                                    //Toasty.error(actv, "You must enter the location name!", Toast.LENGTH_LONG, true).show();
+                                   // askingForPreperedLocation(actv,edt,company_searchBoard);
+
+
+                                }else {
+
+                                    edt.setText(nameTemp);
+                                    //jobSeekerDashboard.setLocation();
 
 
                                 }

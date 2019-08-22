@@ -103,10 +103,9 @@
 
                         <TextView
                             android:id="@+id/textView15"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".75"
-                            android:text="Email :"
+                            android:text="Email : "
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -114,7 +113,6 @@
                             android:id="@+id/emailDisplay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".3"
                             android:text="turzoxpress@gmail.com"
                             android:textSize="16sp" />
 
@@ -128,18 +126,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".75"
                             android:text="Experience : "
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/experienceDisplay"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".3"
                             android:text="2.5 years"
                             android:textSize="16sp" />
 
@@ -205,18 +201,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".75"
                             android:text="Expected Salary : "
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/expectedSalary"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".3"
                             android:text="123456789 taka"
                             android:textSize="16sp" />
 
