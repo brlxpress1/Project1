@@ -15,11 +15,11 @@
         <LinearLayout
             android:id="@+id/panel_1_normal_search"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@drawable/demo_bg"
+            android:layout_height="match_parent"
+            android:background="@drawable/demo_bg_2"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
-            android:visibility="visible"
-            android:focusableInTouchMode="true">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                             android:layout_marginRight="10dp"
                             android:background="@android:color/transparent"
                             android:elevation="10dp"
-                            android:hint="Which employee do you want?"
+                            android:hint="Which type of employee"
 
                             android:imeOptions="actionNext"
                             android:maxLines="1"
