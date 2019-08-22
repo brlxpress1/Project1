@@ -104,6 +104,7 @@ public class SearchResultExample extends BaseAdapter {
 
     {
 
+        LinearLayout masterLayout;
         CircleImageView profilePhoto;
         TextView fullname;
         TextView designation;
@@ -130,6 +131,7 @@ public class SearchResultExample extends BaseAdapter {
 
 
         //holder.skill_id_display=(TextView) rowView.findViewById(R.id.skillID);
+        holder.masterLayout = (LinearLayout)rowView.findViewById(R.id.masterLayout);
         holder.profilePhoto=(CircleImageView) rowView.findViewById(R.id.profile_image2);
         holder.fullname = (TextView) rowView.findViewById(R.id.name);
         holder.designation = (TextView) rowView.findViewById(R.id.designation);
@@ -153,22 +155,24 @@ public class SearchResultExample extends BaseAdapter {
         holder.expectedSalary.setText("Expected Salary : "+jobSeekerExperience.get(position)+" taka");
 
 
-      /*
 
-        holder.crossButton.setOnClickListener(new View.OnClickListener() {
+
+        holder.masterLayout.setOnClickListener(new View.OnClickListener() {
 
             @Override
 
             public void onClick(View view) {
 
 
+                String temp = String.valueOf(jobSeekerId.get(position));
 
-                ((Skill_Selector)context).deleteSkillFromList(skillName.get(position));
+                //(int userID, String photoUrl, String userName, String email, String Experience, String expectedSalary)
+                ((Company_SearchBoard)context).searchItemClick(position,holder.masterLayout,Integer.parseInt(temp),jobSeekerPhotoUrl.get(position),jobSeekerName.get(position),jobSeekerDesignation.get(position),String.valueOf(jobSeekerExperience.get(position)),String.valueOf(jobSeekerExpectedSalary.get(position)));
 
             }
 
         });
-        */
+
 
         return rowView;
 

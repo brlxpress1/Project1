@@ -40,6 +40,7 @@ import com.tur.job1.adapters.SearchResultExample;
 import com.tur.job1.adapters.SkillsSetAdapter;
 import com.tur.job1.job_seeker.Job_Seeker_Dashboard;
 import com.tur.job1.job_seeker.Job_Seeker_Verify_1;
+import com.tur.job1.job_seeker.Job_Seeker_Verify_2;
 import com.tur.job1.others.Connectivity;
 import com.tur.job1.others.ConstantsHolder;
 import com.tur.job1.others.Skill_Selector;
@@ -85,6 +86,8 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
     ArrayList<String> jobSeekerDesignation = new ArrayList<>();
     ArrayList<Integer> jobSeekerExperience = new ArrayList<>();
     ArrayList<Integer> jobSeekerExpectedSalary = new ArrayList<>();
+
+    ArrayList<String> jobSeekerCVUrl = new ArrayList<>();
 
     private LinearLayout panel_1_normal_search;
     private LinearLayout panel_2_search_window;
@@ -211,6 +214,7 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
             jobSeekerDesignation.clear();
             jobSeekerExperience.clear();
             jobSeekerExpectedSalary.clear();
+            jobSeekerCVUrl.clear();
         }
 
         JSONObject parameters = new JSONObject();
@@ -314,6 +318,7 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
                         jobSeekerDesignation.add(listData.optString("fullName"));
                         jobSeekerExperience.add(listData.optInt("experience"));
                         jobSeekerExpectedSalary.add(listData.optInt("expectedSalary"));
+                        jobSeekerCVUrl.add(listData.optString("cvUrl"));
 
                     }
 
@@ -695,6 +700,29 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
 
     }
+
+    public void searchItemClick(int position, LinearLayout linearLayout,int userID, String photoUrl, String userName, String email, String experience, String expectedSalary){
+
+       // linearLayout.startAnimation(buttonClick);
+        SharedPreferences.Editor editor = getSharedPreferences("UserDetailsData", MODE_PRIVATE).edit();
+        editor.putString("userid", String.valueOf(userID));
+        editor.putString("photourl", photoUrl);
+        editor.putString("username", userName);
+        editor.putString("email", email);
+        editor.putString("experience", experience);
+        editor.putString("expectedsalary", expectedSalary);
+        editor.putString("cvurl", jobSeekerCVUrl.get(position));
+        editor.apply();
+
+        Intent openSecondVerifier = new Intent(Company_SearchBoard.this,Employee_Details.class);
+        startActivity(openSecondVerifier);
+        //finish();
+
+
+
+
+    }
+
 
 
     //-----------------

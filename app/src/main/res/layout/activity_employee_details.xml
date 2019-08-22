@@ -57,7 +57,7 @@
                                 app:civ_border_width="2dp" />
 
                             <TextView
-                                android:id="@+id/textView12"
+                                android:id="@+id/nameDisplay"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
@@ -111,10 +111,10 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView13"
+                            android:id="@+id/emailDisplay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".25"
+                            android:layout_weight=".3"
                             android:text="turzoxpress@gmail.com"
                             android:textSize="16sp" />
 
@@ -136,9 +136,10 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/experienceDisplay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".25"
+                            android:layout_weight=".3"
                             android:text="2.5 years"
                             android:textSize="16sp" />
 
@@ -149,21 +150,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight=".75"
-                            android:text="Company : "
+                            android:text="Designation : "
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/companyDisplay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".25"
-                            android:text="Babylon Resources Limited"
+                            android:layout_weight=".3"
+                            android:text="Software Engineer"
                             android:textSize="16sp" />
 
                     </LinearLayout>
@@ -173,7 +176,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -184,9 +188,10 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/skillsDisplay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".25"
+                            android:layout_weight=".3"
                             android:text="Android Development, Game Development"
                             android:textSize="16sp" />
 
@@ -208,9 +213,10 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/expectedSalary"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".25"
+                            android:layout_weight=".3"
                             android:text="123456789 taka"
                             android:textSize="16sp" />
 
@@ -245,7 +251,7 @@
                         android:visibility="gone" />
 
                     <Button
-                        android:id="@+id/save_button"
+                        android:id="@+id/dowload_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/color2"
