@@ -31,6 +31,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/draweropener"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight=".8"
@@ -38,7 +39,6 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:id="@+id/imageView4"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             app:srcCompat="@drawable/black_menu" />
@@ -79,16 +79,48 @@
                 android:visibility="visible">
 
 
-                <AutoCompleteTextView
-                    android:id="@+id/autoCompleteTextView2"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@android:color/transparent"
-                    android:elevation="10dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                    android:hint="Which employee do you want?" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".15"
+                        android:orientation="vertical">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/autoCompleteTextView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@android:color/transparent"
+                            android:elevation="10dp"
+                            android:hint="Which employee do you want?"
+
+                            android:imeOptions="actionNext"
+                            android:maxLines="1"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/basicSearchButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".85"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageView6"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            app:srcCompat="@drawable/search" />
+                    </LinearLayout>
+
+                </LinearLayout>
 
 
             </LinearLayout>

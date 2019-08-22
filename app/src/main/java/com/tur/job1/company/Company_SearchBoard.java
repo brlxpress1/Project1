@@ -42,6 +42,7 @@ import com.tur.job1.job_seeker.Job_Seeker_Dashboard;
 import com.tur.job1.job_seeker.Job_Seeker_Verify_1;
 import com.tur.job1.others.Connectivity;
 import com.tur.job1.others.ConstantsHolder;
+import com.tur.job1.others.Skill_Selector;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,6 +90,16 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
     private LinearLayout panel_2_search_window;
     private ListView searchView;
 
+    private int backButtonBehaviour = 0;
+
+    ArrayList<String> skillIdList = new ArrayList<String>();
+    ArrayList<String> skillNameList = new ArrayList<String>();
+
+    private LinearLayout drawerOpener;
+    private LinearLayout basicSearchClick;
+
+    private DrawerLayout drawer_layout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,10 +124,15 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
         panel_2_search_window = (LinearLayout)findViewById(R.id.panel_2_search_window);
         searchView = (ListView)findViewById(R.id.searchView);
 
+        drawerOpener = (LinearLayout)findViewById(R.id.draweropener);
+        basicSearchClick = (LinearLayout)findViewById(R.id.basicSearchButton);
+        drawer_layout = (DrawerLayout)findViewById(R.id.drawer_layout);
 
 
 
-        readyProfesionBox(autoCompleteTextView);
+
+        //readyProfesionBox(autoCompleteTextView);
+        fetch_skill_list();
 
 
 
@@ -148,9 +164,28 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
                                     long id) {
 
                 //Toast.makeText(Company_SearchBoard.this," selected", Toast.LENGTH_LONG).show();
-                showSearchResult(autoCompleteTextView.getText().toString(),0,20);
+                showSearchResult(autoCompleteTextView.getText().toString(),0,100);
+                //Log.d(TAG,autoCompleteTextView.getText().toString());
 
 
+            }
+        });
+
+        basicSearchClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                basicSearchClick.startAnimation(buttonClick);
+                showSearchResult(autoCompleteTextView.getText().toString(),0,100);
+
+            }
+        });
+
+        drawerOpener.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                drawer_layout.openDrawer(Gravity.LEFT);
             }
         });
 
@@ -167,6 +202,16 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
 
         showLoadingBarAlert();
+
+        if(increamentor == 0){
+
+            jobSeekerId.clear();
+            jobSeekerPhotoUrl.clear();
+            jobSeekerName.clear();
+            jobSeekerDesignation.clear();
+            jobSeekerExperience.clear();
+            jobSeekerExpectedSalary.clear();
+        }
 
         JSONObject parameters = new JSONObject();
         try {
@@ -190,7 +235,7 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
                         String respo=response.toString();
                         Log.d(TAG,respo);
 
-                        Log.d("5555",respo);
+                        Log.d(TAG,respo);
 
 
 
@@ -239,6 +284,8 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
     private void parseBasicSearchData(JSONObject jobj){
 
+
+
         if(jobj != null){
 
             int totalElements =jobj.optInt("totalElements");
@@ -278,7 +325,10 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
 
 
-                panel_1_normal_search.getLayoutParams().height = 0;
+                backButtonBehaviour = 1;
+               // panel_1_normal_search.getLayoutParams().height = 0;
+                //searchView.setAdapter(null);
+                showSearchResultWindow();
                 searchView.setAdapter(new SearchResultExample(this,jobSeekerId.size(),jobSeekerId,jobSeekerPhotoUrl,jobSeekerName,jobSeekerDesignation,jobSeekerExperience,jobSeekerExpectedSalary));
 
                 //-------------------
@@ -340,7 +390,7 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
 
     }
 
-    private void readyProfesionBox(AutoCompleteTextView autoCompleteTextView) {
+    private void readyProfesionBox(AutoCompleteTextView autoCompleteTextView ) {
 
         //Creating the instance of ArrayAdapter containing list of language names
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
@@ -531,8 +581,144 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
     }
 
 
+    private void showBasicSearchWindow(){
 
-    //----------------------
+        panel_1_normal_search.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        panel_2_search_window.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+    }
+
+    private void showSearchResultWindow(){
+
+        panel_1_normal_search.setLayoutParams(new LinearLayout.LayoutParams(0,0));
+        panel_2_search_window.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+    }
+
+    //-----------------
+
+    //--
+    private void fetch_skill_list() {
+
+        showLoadingBarAlert();
+
+
+
+        RequestQueue rq = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, ConstantsHolder.rawServer+ConstantsHolder.fetchSkillList, null, new com.android.volley.Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String respo=response.toString();
+                        Log.d(TAG,respo);
+
+                        //Log.d(TAG,respo);
+
+
+                        parseSkillListData(response);
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        Toasty.error(Company_SearchBoard.this, "Server error,please check your internet connection!", Toast.LENGTH_LONG, true).show();
+                        //Toast.makeText(Login_A.this, "Something wrong with Api", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        rq.getCache().clear();
+        rq.add(jsonObjectRequest);
+
+        //-----------------
+
+    }
+
+    private void parseSkillListData(JSONObject jobj){
+
+        skillIdList.clear();
+        skillNameList.clear();
+
+        //skillIdList.add("0");
+        //skillNameList.add("Select a skill...");
+
+        if(jobj != null){
+
+            int status =jobj.optInt("status");
+            if(status == 200){
+
+                // Getting the Job Seeker info
+                //JSONObject skills = jobj.optJSONObject("skills");
+                try {
+                    JSONArray skills = jobj.getJSONArray("skills");
+
+                    // Log.d(TAG,skills.toString());
+                    for(int i=0; i<skills.length(); i++){
+
+                        JSONObject listData = skills.getJSONObject(i);
+
+
+
+                        String id =  listData.optString("id");
+                        String name =  listData.optString("name");
+                        Log.d(TAG,id+"------------"+name);
+
+                        skillIdList.add(id);
+                        skillNameList.add(name);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                professions = skillNameList.toArray(new String[skillNameList.size()]);
+                readyProfesionBox(autoCompleteTextView);
+
+                hideLoadingBar();
+
+
+            }else {
+                // Go to Login
+            }
+        }else {
+
+            // Go to Login
+        }
+
+
+
+
+    }
+
+
+    //-----------------
+
+    @Override
+    public void onBackPressed() {
+
+
+
+        if(backButtonBehaviour == 1){
+
+            showBasicSearchWindow();
+            backButtonBehaviour = 0;
+
+        }else if(backButtonBehaviour == 0){
+
+            //to do
+
+        }
+
+        //Toast.makeText(this,String.valueOf(backButtonBehaviour),Toast.LENGTH_LONG).show();
+    }
+
+
 }
 
 
