@@ -90,6 +90,7 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
     ArrayList<String> jobSeekerDesignation = new ArrayList<>();
     ArrayList<Integer> jobSeekerExperience = new ArrayList<>();
     ArrayList<Integer> jobSeekerExpectedSalary = new ArrayList<>();
+    ArrayList<String> jobSeekerSkillSet = new ArrayList<>();
 
     ArrayList<String> jobSeekerCVUrl = new ArrayList<>();
 
@@ -289,12 +290,14 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
                     if(tempSalary.equalsIgnoreCase("") || tempSalary == null){
 
                         tempSalary = "100000";
+
                     }
 
                     String tempGender = genderBox.getSelectedItem().toString();
                     if(tempGender .equalsIgnoreCase("") || tempGender  == null || tempGender.equalsIgnoreCase("All")){
 
                         tempGender = "";
+
                     }
 
                     String tempAge = ageBox.getText().toString().trim();
@@ -351,6 +354,7 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
             jobSeekerExperience.clear();
             jobSeekerExpectedSalary.clear();
             jobSeekerCVUrl.clear();
+            jobSeekerSkillSet.clear();
         }
 
         JSONObject parameters = new JSONObject();
@@ -456,6 +460,8 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
                         jobSeekerExpectedSalary.add(listData.optInt("expectedSalary"));
                         jobSeekerCVUrl.add(listData.optString("cvUrl"));
 
+                        parseSkillSetFromJsonArray(listData.getJSONArray("skillsList"));
+
                     }
 
 
@@ -492,6 +498,66 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
         }
     }
 
+    private void parseSkillSetFromJsonArray(JSONArray sd) {
+
+        String tempS = "";
+
+
+        if(sd == null || sd.toString().equalsIgnoreCase("null") || sd.toString().equalsIgnoreCase("")){
+
+            tempS = "N/A";
+        }else {
+
+
+
+            try {
+               // JSONArray skills = sd;
+
+                // Log.d(TAG,skills.toString());
+                for(int i=0; i<sd.length(); i++){
+
+                    JSONObject listData = sd.getJSONObject(i);
+
+                   // tempS =  tempS +",\n"+skillNameList.get(listData.optInt("skillId"));
+                    if(i > 0){
+
+                        tempS = tempS +","+ skillNameList.get(listData.optInt("skillId") - 1);
+
+                    }else {
+
+                        tempS = skillNameList.get(listData.optInt("skillId") - 1);
+                    }
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+
+        }
+
+
+        Log.d(TAG, tempS);
+        jobSeekerSkillSet.add(tempS);
+        //Log.d("5555",sd.toString());
+
+
+
+
+    }
+
     private void showSearchResult2(int increamentor,String age, String location, String skill, String experience, String salary, String gender) {
 
 
@@ -506,6 +572,7 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
             jobSeekerExperience.clear();
             jobSeekerExpectedSalary.clear();
             jobSeekerCVUrl.clear();
+            jobSeekerSkillSet.clear();
         }
 
 
@@ -618,6 +685,7 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
                         jobSeekerExperience.add(listData.optInt("experience"));
                         jobSeekerExpectedSalary.add(listData.optInt("expectedSalary"));
                         jobSeekerCVUrl.add(listData.optString("cvUrl"));
+                        parseSkillSetFromJsonArray(listData.getJSONArray("skillsList"));
 
                     }
 
@@ -1036,6 +1104,7 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
         editor.putString("experience", experience);
         editor.putString("expectedsalary", expectedSalary);
         editor.putString("cvurl", jobSeekerCVUrl.get(position));
+        editor.putString("skillset", jobSeekerSkillSet.get(position));
         editor.apply();
 
         Intent openSecondVerifier = new Intent(Company_SearchBoard.this,Employee_Details.class);

@@ -366,7 +366,7 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
             @Override
             public void onClick(View view) {
 
-                openSkillInput();
+                instantUpdate();
 
             }
         });
@@ -655,6 +655,116 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
 
 
                             Toasty.error(Job_Seeker_Dashboard.this,"Can't update info! Please check your internet connection & try again.",Toast.LENGTH_LONG, true).show();
+                        }
+
+                        hideLoadingBar();
+
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        Toasty.error(Job_Seeker_Dashboard.this, "Server error,please check your internet connection!", Toast.LENGTH_LONG, true).show();
+                        //Toast.makeText(Login_A.this, "Something wrong with Api", Toast.LENGTH_SHORT).show();
+                        hideLoadingBar();
+
+                    }
+                }){
+
+            /** Passing some request headers* */
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json");
+                //headers.put("apiKey", "xxxxxxxxxxxxxxx");
+                return headers;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        rq.getCache().clear();
+        rq.add(jsonObjectRequest);
+
+        //-----------------
+
+
+        //------------
+
+
+    }
+
+    private void submitForm2() {
+
+        //--
+
+        showLoadingBarAlert();
+
+        Boolean checkFlag = false;
+        if(visible_switch.isChecked()){
+
+            checkFlag = true;
+
+        }else {
+
+            checkFlag = false;
+        }
+
+        JSONObject parameters = new JSONObject();
+        try {
+
+            parameters.put("userId", Integer.parseInt(userIdLocal));
+            parameters.put("fullName", nameBox.getText().toString());
+            parameters.put("visbile", checkFlag);
+            parameters.put("gender", genderBox.getSelectedItem().toString());
+            parameters.put("dateOfBirth", dateBox.getText().toString());
+            parameters.put("email", emailBox.getText().toString());
+            parameters.put("phone", phoneBox.getText().toString());
+            parameters.put("expectedSalary", salaryExperience(salaryBox.getText().toString().trim()));
+            parameters.put("experience", salaryExperience(experienceBox.getText().toString().trim()));
+            parameters.put("preferLocation", preferredBox.getText().toString());
+            parameters.put("photoUrl", "");
+            parameters.put("cvUrl", "");
+            parameters.put("skillsList", null);
+            parameters.put("jobsHistories", null);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d(TAG,parameters.toString());
+
+        RequestQueue rq = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, ConstantsHolder.rawServer+ConstantsHolder.updateUserFullForm, parameters, new com.android.volley.Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String respo=response.toString();
+                        Log.d(TAG,respo);
+
+                        //Log.d(TAG,respo);
+
+
+                        //parseFetchData(response);
+                        int status = response.optInt("status");
+                        if(status == 200){
+
+                           // Toasty.success(Job_Seeker_Dashboard.this,"Your info updated successfully!",Toast.LENGTH_LONG, true).show();
+                            openSkillInput();
+
+
+
+                        }else {
+
+
+                            Toasty.error(Job_Seeker_Dashboard.this,"Something wrong with the server! Please check your internet connection & try again.",Toast.LENGTH_LONG, true).show();
                         }
 
                         hideLoadingBar();
@@ -1211,9 +1321,13 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
 
                 // 7.Printing the Experience
                 String experience = jobSeekerModel.optString("experience");
-                if(experience != null && !experience.equalsIgnoreCase("") && !experience.equalsIgnoreCase("0") ){
+                if(experience != null && !experience.equalsIgnoreCase("") && !experience.equalsIgnoreCase("0") && !experience.equalsIgnoreCase("null") ){
 
                     experienceBox.setText(experience);
+                }else{
+
+                    experienceBox.setText("");
+
                 }
                 //-----------
 
@@ -2546,6 +2660,18 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
             // Display File path after downloading
             Toast.makeText(getApplicationContext(),
                     message, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void instantUpdate(){
+
+        if(dateBox.getText().toString().equalsIgnoreCase("") || dateBox.getText() == null){
+
+            Toasty.error(Job_Seeker_Dashboard.this,"Please set your birthday first!",Toast.LENGTH_LONG, true).show();
+
+        }else {
+
+            submitForm2();
         }
     }
 

@@ -74,6 +74,7 @@ public class Employee_Details extends AppCompatActivity {
     private String localSkills;
     private String localExpectedSalary;
     private String localCVUrl;
+    //private String localSkill;
 
     private String downloadedFileName;
 
@@ -116,6 +117,8 @@ public class Employee_Details extends AppCompatActivity {
         //localSkills = prefs.getString("photourl", "");
         localExpectedSalary = prefs.getString("expectedsalary", "");
         localCVUrl = prefs.getString("cvurl", "");
+
+        localSkills =  prefs.getString("skillset", "N/A");
 
 
 
@@ -166,6 +169,8 @@ public class Employee_Details extends AppCompatActivity {
 
             expectedSalaryDisplay.setText("N/A");
         }
+
+        skillsDisplay.setText(localSkills);
 
         cvDownloadButtonClick.setOnClickListener(new View.OnClickListener() {
             @Override

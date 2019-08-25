@@ -152,7 +152,7 @@ public class SearchResultExample extends BaseAdapter {
         holder.fullname.setText(jobSeekerName.get(position));
         holder.designation.setText(jobSeekerDesignation.get(position));
         holder.experience.setText("Experience : "+jobSeekerExperience.get(position)+" years");
-        holder.expectedSalary.setText("Expected Salary : "+jobSeekerExperience.get(position)+" taka");
+        holder.expectedSalary.setText("Expected Salary : "+jobSeekerExpectedSalary.get(position)+" taka");
 
 
 
