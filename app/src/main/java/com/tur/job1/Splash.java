@@ -16,6 +16,7 @@ import com.tur.job1.company.Company_Dashboard;
 import com.tur.job1.company.Company_SearchBoard;
 import com.tur.job1.company.Company_Signup_1;
 import com.tur.job1.job_seeker.Job_Seeker_Dashboard;
+import com.tur.job1.job_seeker.Job_Seeker_Modified_Dashboard;
 import com.tur.job1.job_seeker.Job_Seeker_Verify_1;
 import com.tur.job1.others.Connectivity;
 
@@ -76,7 +77,7 @@ public class Splash extends AppCompatActivity {
 
                 if(userIdLocal != null && !userIdLocal.equalsIgnoreCase("")){
 
-                    Intent openJobSeekerSignUp = new Intent(Splash.this, Job_Seeker_Dashboard.class);
+                    Intent openJobSeekerSignUp = new Intent(Splash.this, Job_Seeker_Modified_Dashboard.class);
                     startActivity(openJobSeekerSignUp);
                     finish();
 
