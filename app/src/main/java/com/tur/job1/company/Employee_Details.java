@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -124,11 +125,21 @@ public class Employee_Details extends AppCompatActivity {
 
         if(localPhotoUrl != null || !localPhotoUrl.equalsIgnoreCase("")){
 
+            /*
 
             Glide.with(this)
                     .load(localPhotoUrl)
                     .centerCrop()
                     .placeholder(R.drawable.default_avatar)
+                    .into(profilePhotoDisplay);
+                    */
+
+            Glide
+                    .with(this)
+                    .load(localPhotoUrl)
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.default_avatar)
+                            .fitCenter())
                     .into(profilePhotoDisplay);
 
         }

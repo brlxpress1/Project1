@@ -34,6 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.tur.job1.Intro;
@@ -42,6 +43,7 @@ import com.tur.job1.Splash;
 import com.tur.job1.adapters.SearchResultExample;
 import com.tur.job1.adapters.SkillsSetAdapter;
 import com.tur.job1.job_seeker.Job_Seeker_Dashboard;
+import com.tur.job1.job_seeker.Job_Seeker_Modified_Dashboard;
 import com.tur.job1.job_seeker.Job_Seeker_Verify_1;
 import com.tur.job1.job_seeker.Job_Seeker_Verify_2;
 import com.tur.job1.others.Connectivity;
@@ -194,6 +196,22 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
             finish();
 
         }
+
+
+        avatarPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                avatarPhoto.startAnimation(buttonClick);
+
+                Intent openJobSeekerSignUp = new Intent(Company_SearchBoard.this, Company_Dashboard.class);
+                startActivity(openJobSeekerSignUp);
+                finish();
+
+
+
+            }
+        });
 
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -905,11 +923,20 @@ public class Company_SearchBoard extends AppCompatActivity implements Navigation
                 String photoUrl = jobSeekerModel.optString("photoUrl");
                 if(photoUrl != null || !photoUrl.equalsIgnoreCase("")){
 
-
+/*
                     Glide.with(this)
                             .load(photoUrl)
                             .centerCrop()
                             .placeholder(R.drawable.default_avatar)
+                            .into(avatarPhoto);
+                            */
+
+                    Glide
+                            .with(this)
+                            .load(photoUrl)
+                            .apply(new RequestOptions()
+                                    .placeholder(R.drawable.default_avatar)
+                                    .fitCenter())
                             .into(avatarPhoto);
 
                 }

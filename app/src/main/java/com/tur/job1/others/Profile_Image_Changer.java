@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -46,22 +47,42 @@ public class Profile_Image_Changer {
 
     public void loadProfile(String url) {
         Log.d(TAG, "Image cache path: " + url);
-
+/*
         Glide.with(mainActivity)
                 .load(url)
                 .centerCrop()
                 .placeholder(R.drawable.default_avatar)
                 .into(imgV);
+                */
         //imgProfile.setColorFilter(ContextCompat.getColor(ct, android.R.color.transparent));
+
+        Glide
+                .with(mainActivity)
+                .load(url)
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.default_avatar)
+                        .fitCenter())
+                .into(imgV);
     }
 
     private void loadProfileDefault() {
+
+        /*
         Glide.with(mainActivity)
                 .load(R.drawable.default_avatar)
                 .centerCrop()
                 .placeholder(R.drawable.default_avatar)
                 .into(imgV);
+                */
         //imgProfile.setColorFilter(ContextCompat.getColor(this, R.color.profile_default_tint));
+
+        Glide
+                .with(mainActivity)
+                .load(R.drawable.default_avatar)
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.default_avatar)
+                        .fitCenter())
+                .into(imgV);
 
         onProfileImageClick();
     }

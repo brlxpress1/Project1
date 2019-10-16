@@ -33,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -432,11 +433,20 @@ public class Company_Dashboard extends AppCompatActivity {
                 String photoUrl = jobSeekerModel.optString("photoUrl");
                 if(photoUrl != null || !photoUrl.equalsIgnoreCase("")){
 
-
+/*
                     Glide.with(this)
                             .load(photoUrl)
                             .centerCrop()
                             .placeholder(R.drawable.default_avatar)
+                            .into(profileImage);
+                            */
+
+                    Glide
+                            .with(this)
+                            .load(photoUrl)
+                            .apply(new RequestOptions()
+                                    .placeholder(R.drawable.default_avatar)
+                                    .fitCenter())
                             .into(profileImage);
 
                 }
@@ -714,12 +724,22 @@ public class Company_Dashboard extends AppCompatActivity {
     public void loadProfile(String url) {
         Log.d(TAG, "Image cache path: " + url);
 
+        /*
         Glide.with(this)
                 .load(url)
                 .centerCrop()
                 .placeholder(R.drawable.default_avatar)
                 .into(profileImage);
         //imgProfile.setColorFilter(ContextCompat.getColor(ct, android.R.color.transparent));
+        */
+
+        Glide
+                .with(this)
+                .load(url)
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.default_avatar)
+                        .fitCenter())
+                .into(profileImage);
 
 
     }

@@ -8,7 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.tur.job1.R;
 import com.tur.job1.company.Company_SearchBoard;
 import com.tur.job1.others.Skill_Selector;
@@ -140,11 +142,20 @@ public class SearchResultExample extends BaseAdapter {
 
         if(jobSeekerPhotoUrl.get(position)!= null || !jobSeekerPhotoUrl.get(position).toString().equalsIgnoreCase("")){
 
-
+/*
             Glide.with(context)
                     .load(jobSeekerPhotoUrl.get(position))
                     .centerCrop()
                     .placeholder(R.drawable.default_avatar)
+                    .into(holder.profilePhoto);
+                    */
+
+            Glide
+                    .with(context)
+                    .load(jobSeekerPhotoUrl.get(position))
+                    .apply(new RequestOptions()
+                            .placeholder(R.drawable.default_avatar)
+                            .fitCenter())
                     .into(holder.profilePhoto);
 
         }

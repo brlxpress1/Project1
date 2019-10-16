@@ -52,6 +52,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.downloader.Error;
 import com.downloader.OnCancelListener;
 import com.downloader.OnDownloadListener;
@@ -271,6 +272,17 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
 
 
         ImagePickerActivity.clearCache(this);
+
+
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                profileImage.startAnimation(buttonClick);
+                onProfileImageClick();
+                //onProfileImageClick();
+            }
+        });
 
         //--
         changeProfile.setOnClickListener(new View.OnClickListener() {
@@ -1011,12 +1023,21 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
     public void loadProfile(String url) {
         Log.d(TAG, "Image cache path: " + url);
 
+        /*
         Glide.with(this)
                 .load(url)
                 .centerCrop()
                 .placeholder(R.drawable.default_avatar)
                 .into(profileImage);
         //imgProfile.setColorFilter(ContextCompat.getColor(ct, android.R.color.transparent));
+*/
+        Glide
+                .with(this)
+                .load(url)
+                .apply(new RequestOptions()
+                        .placeholder(R.drawable.default_avatar)
+                        .fitCenter())
+                .into(profileImage);
 
 
     }
@@ -1232,10 +1253,20 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
                 if(photoUrl != null || !photoUrl.equalsIgnoreCase("")){
 
 
+                    /*
                     Glide.with(this)
                             .load(photoUrl)
-                            .centerCrop()
-                            .placeholder(R.drawable.default_avatar)
+                            //.fitCenter()
+                            //.placeholder(R.drawable.default_avatar)
+                            .into(profileImage);
+                            */
+
+                    Glide
+                            .with(this)
+                            .load(photoUrl)
+                            .apply(new RequestOptions()
+                                    .placeholder(R.drawable.default_avatar)
+                                    .fitCenter())
                             .into(profileImage);
 
                 }
@@ -2680,9 +2711,11 @@ public class Job_Seeker_Dashboard extends AppCompatActivity implements DatePicke
     @Override
     public void onBackPressed() {
 
-        showExitDialogue();
+       // showExitDialogue();
 
-        //super.onBackPressed();
+        Intent openJobSeekerSignUp = new Intent(Job_Seeker_Dashboard.this, Job_Seeker_Modified_Dashboard.class);
+        startActivity(openJobSeekerSignUp);
+        finish();
     }
 
     //--------------------------------------

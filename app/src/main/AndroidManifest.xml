@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:noHistory="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".job_seeker.Job_Seeker_Modified_Dashboard"
+        <activity android:name=".Splash"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,6 +50,7 @@
         <activity android:name=".company.Company_Signup_2" android:theme="@style/Theme2" android:label="Verify Number" android:screenOrientation="portrait"></activity>
         <activity android:name=".company.Company_SearchBoard" android:theme="@style/AppTheme" android:label="" android:screenOrientation="portrait"></activity>
         <activity android:name=".company.Employee_Details" android:theme="@style/AppTheme" android:label="" android:screenOrientation="portrait"></activity>
+        <activity android:name=".job_seeker.Job_Seeker_Modified_Dashboard" android:theme="@style/AppTheme" android:label="" android:screenOrientation="portrait"></activity>
 
 
 

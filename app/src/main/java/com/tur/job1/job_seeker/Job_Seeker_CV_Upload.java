@@ -116,13 +116,6 @@ public class Job_Seeker_CV_Upload extends AppCompatActivity {
                 }
 
 
-
-
-
-
-
-
-
             }
         });
 
@@ -338,7 +331,7 @@ public class Job_Seeker_CV_Upload extends AppCompatActivity {
 
                         //--success
                        // Toasty.success(Job_Seeker_CV_Upload.this,"CV uploaded successfully!",Toast.LENGTH_LONG, true).show();
-                        Intent openSecondVerifier = new Intent(Job_Seeker_CV_Upload.this,Job_Seeker_Dashboard.class);
+                        Intent openSecondVerifier = new Intent(Job_Seeker_CV_Upload.this,Job_Seeker_Modified_Dashboard.class);
                         startActivity(openSecondVerifier);
                         finish();
 

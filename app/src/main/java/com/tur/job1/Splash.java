@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.tur.job1.company.Company_Dashboard;
 import com.tur.job1.company.Company_SearchBoard;
 import com.tur.job1.company.Company_Signup_1;
@@ -29,20 +31,35 @@ public class Splash extends AppCompatActivity {
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.6F);
 
     private String TAG = "Splash";
-
-
-
+    private FirebaseRemoteConfig firebaseRemoteConfig;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*
+        firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        firebaseRemoteConfig.setConfigSettings(new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(true)
+                .build());
+
+                 String tempS = firebaseRemoteConfig.getString("master_server_url");
+            Log.d("5555","Master server url : "+tempS);
+                */
+
+
         setContentView(R.layout.activity_splash);
 
         if (Connectivity.isConnected(Splash.this)) {
 
 
 
+
+
+
+
+            //--
             SharedPreferences prefs1 = getSharedPreferences("UserType", MODE_PRIVATE);
             int userType = prefs1.getInt("type", 0);
             Log.d(TAG,"Logging with user type : "+ String.valueOf(userType));
@@ -97,6 +114,13 @@ public class Splash extends AppCompatActivity {
                 finish();
 
             }
+
+
+            //------------
+
+
+
+
 
 
 

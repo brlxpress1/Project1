@@ -397,7 +397,7 @@ public class Job_Seeker_Login_Verify extends AppCompatActivity {
 
 
                             //--
-                            Intent openSecondVerifier = new Intent(Job_Seeker_Login_Verify.this,Job_Seeker_Dashboard.class);
+                            Intent openSecondVerifier = new Intent(Job_Seeker_Login_Verify.this,Job_Seeker_Modified_Dashboard.class);
                             startActivity(openSecondVerifier);
                             finish();
 
